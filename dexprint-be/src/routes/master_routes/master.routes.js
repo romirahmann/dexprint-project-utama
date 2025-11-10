@@ -9,6 +9,7 @@ const CategoriesController = require("../../controllers/master_controller/Catego
 const ClientController = require("../../controllers/master_controller/ClientController");
 const HeroController = require("../../controllers/master_controller/HeroController");
 const ReviewController = require("../../controllers/master_controller/ReviewController.js");
+const FAQController = require("../../controllers/master_controller/FAQController.js");
 
 // USER ROUTES
 router.get("/users", UserController.getAllUser);
@@ -51,5 +52,12 @@ router.get("/review/:id", ReviewController.getReviewById);
 router.post("/review", upload.single("file"), ReviewController.createReview);
 router.put("/review/:id", upload.single("file"), ReviewController.updateReview);
 router.delete("/review/:id", ReviewController.deleteReview);
+
+// === FAQ ROUTES ===
+router.get("/faqs", FAQController.getAllFAQ);
+router.get("/faq/:id", FAQController.getFAQById);
+router.post("/faq", FAQController.createFAQ);
+router.put("/faq/:id", FAQController.updateFAQ);
+router.delete("/faq/:id", FAQController.deleteFAQ);
 
 module.exports = router;
