@@ -10,6 +10,8 @@ const ClientController = require("../../controllers/master_controller/ClientCont
 const HeroController = require("../../controllers/master_controller/HeroController");
 const ReviewController = require("../../controllers/master_controller/ReviewController.js");
 const FAQController = require("../../controllers/master_controller/FAQController.js");
+const ProductController = require("../../controllers/master_controller/ProductController");
+const MaterialController = require("../../controllers/master_controller/MaterialController");
 
 // USER ROUTES
 router.get("/users", UserController.getAllUser);
@@ -59,5 +61,38 @@ router.get("/faq/:id", FAQController.getFAQById);
 router.post("/faq", FAQController.createFAQ);
 router.put("/faq/:id", FAQController.updateFAQ);
 router.delete("/faq/:id", FAQController.deleteFAQ);
+
+// PRODUCT CRUD
+router.get("/products", ProductController.getAllProduct);
+router.get("/product/:id", ProductController.getProductById);
+router.post("/product", ProductController.createProduct);
+router.put("/product/:id", ProductController.updateProduct);
+router.delete("/product/:id", ProductController.deleteProduct);
+
+// PRODUCT IMAGES
+router.post(
+  "/product/:id/images",
+  upload.array("files", 10),
+  ProductController.addProductImage
+);
+router.delete("/product/image/:imgId", ProductController.deleteProductImage);
+router.put(
+  "/product/:id/thumbnail/:imgId",
+  ProductController.setProductThumbnail
+);
+
+// MATERIAL
+router.get("/materials", MaterialController.getAllMaterial);
+router.get("/material/:id", MaterialController.getMaterialById);
+router.post("/material", MaterialController.createMaterial);
+router.put("/material/:id", MaterialController.updateMaterial);
+router.delete("/material/:id", MaterialController.deleteMaterial);
+
+// === PORTFOLIO ROUTES ===
+router.get("/portfolios", PortfolioController.getAllPortfolio);
+router.get("/portfolio/:id", PortfolioController.getPortfolioById);
+router.post("/portfolio", PortfolioController.createPortfolio);
+router.put("/portfolio/:id", PortfolioController.updatePortfolio);
+router.delete("/portfolio/:id", PortfolioController.deletePortfolio);
 
 module.exports = router;
