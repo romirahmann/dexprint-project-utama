@@ -11,6 +11,8 @@ import { UserLayout } from "../layouts/UserLayout";
 import { store } from "../store";
 import { Dashboard } from "../pages/main/admin/Dashboard";
 import { LoginPage } from "../pages/auth/LoginPage";
+import { LandingPage } from "../pages/main/users/LandingPage";
+import { PortofolioDetailPage } from "../pages/main/users/PortofolioDetail";
 
 const rootRoute = createRootRoute({});
 
@@ -40,8 +42,18 @@ const loginPage = createRoute({
 // USER LAYOUT
 const userLayout = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/",
+  id: "user-layout",
   component: UserLayout,
+});
+const landingPage = createRoute({
+  getParentRoute: () => userLayout,
+  path: "/",
+  component: LandingPage,
+});
+const portofolioDetail = createRoute({
+  getParentRoute: () => userLayout,
+  path: "portofolio/detail",
+  component: PortofolioDetailPage,
 });
 
 // ADMIN
@@ -53,7 +65,7 @@ const dashboardAdmin = createRoute({
 
 const routeTree = rootRoute.addChildren([
   adminLayout.addChildren([dashboardAdmin]),
-  userLayout,
+  userLayout.addChildren([landingPage, portofolioDetail]),
   loginPage,
 ]);
 export const router = createRouter({

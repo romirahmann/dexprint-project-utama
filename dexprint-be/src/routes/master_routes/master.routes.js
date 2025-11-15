@@ -12,6 +12,7 @@ const ReviewController = require("../../controllers/master_controller/ReviewCont
 const FAQController = require("../../controllers/master_controller/FAQController.js");
 const ProductController = require("../../controllers/master_controller/ProductController");
 const MaterialController = require("../../controllers/master_controller/MaterialController");
+const PortofolioController = require("../../controllers/master_controller/PortofolioController");
 
 // USER ROUTES
 router.get("/users", UserController.getAllUser);
@@ -73,7 +74,7 @@ router.delete("/product/:id", ProductController.deleteProduct);
 router.post(
   "/product/:id/images",
   upload.array("files", 10),
-  ProductController.addProductImage
+  ProductController.addProductImages
 );
 router.delete("/product/image/:imgId", ProductController.deleteProductImage);
 router.put(
@@ -89,10 +90,10 @@ router.put("/material/:id", MaterialController.updateMaterial);
 router.delete("/material/:id", MaterialController.deleteMaterial);
 
 // === PORTFOLIO ROUTES ===
-router.get("/portfolios", PortfolioController.getAllPortfolio);
-router.get("/portfolio/:id", PortfolioController.getPortfolioById);
-router.post("/portfolio", PortfolioController.createPortfolio);
-router.put("/portfolio/:id", PortfolioController.updatePortfolio);
-router.delete("/portfolio/:id", PortfolioController.deletePortfolio);
+router.get("/portfolios", PortofolioController.getAllPortfolio);
+router.get("/portfolio/:id", PortofolioController.getPortfolioById);
+router.post("/portfolio", PortofolioController.createPortfolio);
+router.put("/portfolio/:id", PortofolioController.updatePortfolio);
+router.delete("/portfolio/:id", PortofolioController.deletePortfolio);
 
 module.exports = router;
