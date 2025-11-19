@@ -17,10 +17,10 @@ export function Navbar() {
   const menuItems = [
     { label: "Home", type: "page", target: "/" },
     { label: "Layanan", type: "scroll", target: "layanan" },
-    { label: "Produk", type: "page", target: "/produk" },
-    { label: "Portofolio", type: "page", target: "/portofolio/detail" },
+    { label: "Produk", type: "page", target: "/products" },
+    { label: "Portofolio", type: "page", target: "/portofolio" },
     { label: "FAQ", type: "scroll", target: "faq" },
-    { label: "Kontak", type: "scroll", target: "kontak" },
+    { label: "Kontak", type: "page", target: "/contact" },
   ];
 
   const renderMenuItem = (item) => {

@@ -11,6 +11,7 @@ export function ClientSection() {
     const fetchClient = async () => {
       try {
         let res = await api.get("/master/clients");
+
         setClient(res.data.data);
       } catch (error) {
         console.log(error);
@@ -27,10 +28,11 @@ export function ClientSection() {
       {/* Container marquee */}
       <div className="relative w-full overflow-hidden">
         <motion.div
-          className="flex items-center gap-16 md:gap-24 px-8 md:px-20"
-          animate={{ x: ["0%", "-50%"] }}
+          className="flex items-center gap-15 md:gap-15 px-8 md:px-20 min-w-max"
+          animate={{ x: ["80%", "-50%"] }}
           transition={{
             repeat: Infinity,
+            repeatType: "loop",
             duration: 20,
             ease: "linear",
           }}
@@ -41,7 +43,7 @@ export function ClientSection() {
               className="flex-shrink-0 w-28 md:w-36 grayscale hover:grayscale-0 transition duration-300"
             >
               <img
-                src={`${baseApi}master/image/${brand.clientLogo}`}
+                src={brand.clientLogo}
                 alt={brand.clientName}
                 className="object-contain w-full h-12"
               />

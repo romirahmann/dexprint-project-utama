@@ -31,8 +31,16 @@ router.delete("/profile/:id", ProfileController.deleteCompany);
 // === CATEGORY ROUTES ===
 router.get("/categories", CategoriesController.getAllCategory);
 router.get("/category/:id", CategoriesController.getCategoryById);
-router.post("/category", CategoriesController.createCategory);
-router.put("/category/:id", CategoriesController.updateCategory);
+router.post(
+  "/category",
+  upload.single("img"),
+  CategoriesController.createCategory
+);
+router.put(
+  "/category/:id",
+  upload.single("img"),
+  CategoriesController.updateCategory
+);
 router.delete("/category/:id", CategoriesController.deleteCategory);
 
 // CLIENTS

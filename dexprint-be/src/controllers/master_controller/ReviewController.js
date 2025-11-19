@@ -51,7 +51,7 @@ const createReview = async (req, res) => {
     const result = await reviewModel.insert(review);
     emit("review:create", result);
 
-    return api.success(res, result, "Review created successfully");
+    return api.success(res, result);
   } catch (error) {
     console.error("❌ createReview error:", error);
     return api.error(res, "Internal Server Error", 500);
@@ -104,7 +104,7 @@ const updateReview = async (req, res) => {
     const result = await reviewModel.update(id, updateData);
     emit("review:update", { id, ...updateData });
 
-    return api.success(res, result, "Review updated successfully");
+    return api.success(res, result);
   } catch (error) {
     console.error("❌ updateReview error:", error);
     return api.error(res, "Internal Server Error", 500);

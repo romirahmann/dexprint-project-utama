@@ -2,7 +2,6 @@ import { ClientSection } from "../../../components/main/landingpage/Client";
 import { ContactSection } from "../../../components/main/landingpage/Contact";
 import { CTASection } from "../../../components/main/landingpage/CTA";
 import { FAQSection } from "../../../components/main/landingpage/FAQ";
-import { Footer } from "../../../components/main/landingpage/Footer";
 import { HeroSection } from "../../../components/main/landingpage/hero";
 import { PortfolioPage } from "../../../components/main/landingpage/Portofolio";
 import { ProductSection } from "../../../components/main/landingpage/Products";

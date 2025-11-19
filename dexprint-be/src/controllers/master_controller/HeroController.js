@@ -30,10 +30,13 @@ const getHeroById = async (req, res) => {
 
 // CREATE HERO BANNER
 const createHero = async (req, res) => {
-  const { type } = req.body;
+  let { type } = req.body;
   const files = req.files;
 
   try {
+    if (!type) {
+      type = "landingpage";
+    }
     files.forEach(async (file) => {
       await heroModel.insert({
         note: file.originalname,

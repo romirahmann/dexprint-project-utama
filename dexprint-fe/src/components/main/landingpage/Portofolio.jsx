@@ -1,41 +1,23 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import api from "../../../services/axios.service";
 
 export function PortfolioPage() {
-  // Dummy UI Data (nanti bisa diganti dari API)
-  const portfolioItems = [
-    {
-      title: "Branding Cafe",
-      category: "Branding",
-      img: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?auto=format&fit=crop&w=900&q=80",
-    },
-    {
-      title: "Poster Event",
-      category: "Poster",
-      img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=900&q=80",
-    },
-    {
-      title: "Banner Outdoor",
-      category: "Banner",
-      img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
-    },
-    {
-      title: "Packaging Product",
-      category: "Packaging",
-      img: "https://images.unsplash.com/photo-1542831371-d531d36971e6?auto=format&fit=crop&w=900&q=80",
-    },
-    {
-      title: "Company Profile",
-      category: "Company Profile",
-      img: "https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=900&q=80",
-    },
-    {
-      title: "Design Menu Cafe",
-      category: "Menu",
-      img: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=900&q=80",
-    },
-  ];
+  const [portfolioItems, setPortofolioItems] = useState([]);
+
+  useEffect(() => {
+    fetchPortofolio();
+  }, []);
+
+  const fetchPortofolio = async () => {
+    try {
+      let res = await api.get("/master/portofolios");
+      setPortofolioItems(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="py-24 px-6 md:px-16 bg-white min-h-screen">

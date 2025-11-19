@@ -1,39 +1,24 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import api from "../../../services/axios.service";
 
 export function ProductSection() {
-  const products = [
-    {
-      name: "Kartu Nama",
-      desc: "Cetak kartu nama premium dengan berbagai pilihan bahan.",
-      img: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      name: "Banner & Spanduk",
-      desc: "Material kuat, kualitas warna tajam, tahan cuaca.",
-      img: "https://images.unsplash.com/photo-1585135181957-d43b1dbba8f0?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      name: "Poster & Brosur",
-      desc: "Cocok untuk promosi bisnis, event, dan kebutuhan publikasi.",
-      img: "https://images.unsplash.com/photo-1522202222206-1d55b87b2a1e?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      name: "Kartu Nama",
-      desc: "Cetak kartu nama premium dengan berbagai pilihan bahan.",
-      img: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      name: "Banner & Spanduk",
-      desc: "Material kuat, kualitas warna tajam, tahan cuaca.",
-      img: "https://images.unsplash.com/photo-1585135181957-d43b1dbba8f0?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      name: "Poster & Brosur",
-      desc: "Cocok untuk promosi bisnis, event, dan kebutuhan publikasi.",
-      img: "https://images.unsplash.com/photo-1522202222206-1d55b87b2a1e?auto=format&fit=crop&w=800&q=80",
-    },
-  ];
+  const [products, setProduct] = useState([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      let res = await api.get("/master/categories");
+
+      setProduct(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="py-16 bg-white">
@@ -62,10 +47,10 @@ export function ProductSection() {
 
             <div className="p-6">
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                {product.name}
+                {product.categoryName}
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                {product.desc}
+                {product.category}
               </p>
             </div>
           </motion.div>

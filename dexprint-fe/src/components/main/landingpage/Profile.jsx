@@ -50,7 +50,7 @@ export function ProfileSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Tentang {companyInfo.companyName}
+            Kenal kami lebih dekat
           </motion.h2>
 
           <p className="text-gray-700 leading-relaxed whitespace-pre-line">
