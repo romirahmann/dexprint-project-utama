@@ -52,7 +52,7 @@ export function PortofolioManagement() {
     fetchProducts();
   }, []);
 
-  // === Fetch Portfolios (Tanpa Filter) ===
+  // === Fetch Portfolios ===
   const fetchPortfolios = useCallback(async () => {
     setLoading(true);
     try {
@@ -74,20 +74,26 @@ export function PortofolioManagement() {
   }, [fetchPortfolios]);
 
   // === Filter Data di Frontend ===
-  const filteredPortfolios = portfolios
-    .filter((item) => {
-      if (selectedCategory !== "all" && item.categoryId !== selectedCategory)
-        return false;
-      if (selectedProduct !== "all" && item.productId !== selectedProduct)
-        return false;
-      if (
-        search.trim() &&
-        !item.portfolioName.toLowerCase().includes(search.toLowerCase())
-      )
-        return false;
-      return true;
-    })
-    .slice(0, limit);
+  const filteredPortfolios = portfolios.filter((item) => {
+    const matchesCategory =
+      selectedCategory === "all" ||
+      String(item.categoryId) === String(selectedCategory);
+
+    const matchesProduct =
+      selectedProduct === "all" ||
+      String(item.productId) === String(selectedProduct);
+
+    const searchLower = search.toLowerCase().trim();
+    const matchesSearch =
+      !searchLower ||
+      item.portoName?.toLowerCase().includes(searchLower) ||
+      item.categoryName?.toLowerCase().includes(searchLower) ||
+      item.productName?.toLowerCase().includes(searchLower) ||
+      item.client?.toLowerCase()?.includes(searchLower) ||
+      String(item.portofolioId).includes(searchLower);
+
+    return matchesCategory && matchesProduct && matchesSearch;
+  });
 
   // === Modal Handlers ===
   const openModal = (type, portfolio = null) => {
@@ -105,7 +111,7 @@ export function PortofolioManagement() {
     if (!selectedPortfolio) return;
     setIsDeleting(true);
     try {
-      await api.delete(`/master/portfolio/${selectedPortfolio.portfolioId}`);
+      await api.delete(`/master/portfolio/${selectedPortfolio.portofolioId}`);
       showAlert("success", "Portfolio deleted successfully!");
       closeModal();
     } catch (error) {
@@ -119,13 +125,12 @@ export function PortofolioManagement() {
   const actionRenderer = (row) => (
     <div className="flex justify-center gap-3">
       <button
-        onClick={() =>
+        onClick={() => {
           router.navigate({
-            to: "detail/$portfolioId",
-            params: { portfolioId: row.portfolioId },
-            state: { portfolio: row },
-          })
-        }
+            to: "detail/$portofolioId/management",
+            params: { portofolioId: row.portofolioId },
+          });
+        }}
         className="p-2 border rounded-md hover:bg-green-50 transition"
       >
         <FiEye className="text-green-600" />
@@ -151,20 +156,19 @@ export function PortofolioManagement() {
   const formattedData = filteredPortfolios.map((p, index) => ({
     no: index + 1,
     ...p,
-    image: p.portfolioFiles?.find((img) => img.isThumbnail)?.fileUrl || null,
+    image: p.images?.find((img) => img?.isThumbnail)?.url || null,
   }));
 
   // === TABLE COLUMNS ===
   const columns = [
-    { key: "no", label: "#" },
-    { key: "portfolioName", label: "Name" },
+    {
+      key: "no",
+      label: "#",
+      render: (d) => <span className="flex justify-center w-10">{d}</span>,
+    },
+    { key: "portoName", label: "Name" },
     { key: "categoryName", label: "Category" },
     { key: "productName", label: "Product" },
-    {
-      key: "description",
-      label: "Description",
-      render: (d) => <span className="truncate block w-48">{d}</span>,
-    },
   ];
 
   return (
@@ -239,8 +243,8 @@ export function PortofolioManagement() {
       {/* TABLE */}
       <Table
         columns={columns}
-        data={formattedData}
-        rowsPerPage={10}
+        data={formattedData.slice(0, limit)}
+        rowsPerPage={limit}
         loading={loading}
         actionRenderer={actionRenderer}
       />
@@ -266,7 +270,7 @@ export function PortofolioManagement() {
           isOpen={modal.isOpen}
           onCancel={closeModal}
           onConfirm={handleDeleted}
-          message={`Portfolio "${selectedPortfolio?.portfolioName}" will be permanently deleted.`}
+          message={`Portfolio "${selectedPortfolio?.portoName}" will be permanently deleted.`}
           loading={isDeleting}
         />
       )}

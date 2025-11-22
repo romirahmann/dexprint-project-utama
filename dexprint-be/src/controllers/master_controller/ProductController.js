@@ -14,6 +14,17 @@ const getAllProduct = async (req, res) => {
   }
 };
 
+/* ========================== GET ALL PRODUCTS ========================== */
+const getAllProductByCategories = async (req, res) => {
+  try {
+    const products = await productModel.getByCategories();
+    return api.success(res, products);
+  } catch (error) {
+    console.error("❌ getAllProduct error:", error);
+    return api.error(res, "Internal Server Error", 500);
+  }
+};
+
 /* ========================== GET PRODUCT BY ID ========================== */
 const getProductById = async (req, res) => {
   const { id } = req.params;
@@ -173,4 +184,5 @@ module.exports = {
   addProductImages,
   deleteProductImage,
   setProductThumbnail,
+  getAllProductByCategories,
 };

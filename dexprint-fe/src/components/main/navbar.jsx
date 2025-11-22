@@ -51,7 +51,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md shadow-md transition-all duration-300 select-none">
+    <nav className="fixed top-0 left-0  z-50 w-full bg-white/90 backdrop-blur-md shadow-md transition-all duration-300 select-none">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
         {/* BRAND LOGO */}
         <img

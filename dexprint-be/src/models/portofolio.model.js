@@ -5,31 +5,33 @@ const db = require("../database/db.config");
 // Get all portfolios + images
 const getAll = async () => {
   const portfolios = await db("portofolio as p")
-    .select("p.*", "pr.productName")
-    .join("products as pr", "pr.productId", "p.productId");
+    .select("p.*", "pr.productName", "c.categoryName")
+    .join("products as pr", "pr.productId", "p.productId")
+    .leftJoin("categories as c", "pr.categoryId", "c.categoryId");
 
   for (const porto of portfolios) {
     porto.images = await db("portofolio_img")
-      .select("imgId", "url", "note")
-      .where({ portofolioId: porto.portoId });
+      .select("id", "url", "note")
+      .where({ portofolioId: porto.portofolioId });
   }
 
   return portfolios;
 };
 
 // Get by ID
-const getById = async (portoId) => {
+const getById = async (portofolioId) => {
   const porto = await db("portofolio as p")
-    .select("p.*", "pr.productName")
+    .select("p.*", "pr.productName", "c.categoryName")
     .join("products as pr", "pr.productId", "p.productId")
-    .where({ portoId })
+    .leftJoin("categories as c", "pr.categoryId", "c.categoryId")
+    .where({ portofolioId })
     .first();
 
   if (!porto) return null;
 
   porto.images = await db("portofolio_img")
-    .select("imgId", "url", "note")
-    .where({ portofolioId: porto.portoId });
+    .select("id", "url", "note")
+    .where({ portofolioId: porto.portofolioId });
 
   return porto;
 };
@@ -68,13 +70,14 @@ const deleted = async (portoId) => db("portofolio").where({ portoId }).del();
 
 // === PORTOFOLIO IMAGE ===
 
+const getImages = async (id) => db("portofolio_img").where({ id }).first();
+
 // Add image
 const addImage = async (portofolioId, url, note = null) =>
   db("portofolio_img").insert({ url, note, portofolioId });
 
 // Delete image
-const deleteImage = async (imgId) =>
-  db("portofolio_img").where({ imgId }).del();
+const deleteImage = async (id) => db("portofolio_img").where({ id }).del();
 
 module.exports = {
   getAll,
@@ -84,4 +87,5 @@ module.exports = {
   deleted,
   addImage,
   deleteImage,
+  getImages,
 };

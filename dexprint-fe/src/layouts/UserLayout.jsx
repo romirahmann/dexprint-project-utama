@@ -8,7 +8,7 @@ export function UserLayout() {
     <>
       <div className="max-w-full">
         <Navbar />
-        <div className=" ">
+        <div className="mt-[5em] ">
           <Outlet />
         </div>
         <WAButton />

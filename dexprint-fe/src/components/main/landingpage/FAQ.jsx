@@ -10,7 +10,7 @@ export function FAQSection() {
   const fetchFAQ = useCallback(async () => {
     try {
       let res = await api.get("/master/faqs");
-      console.log(res.data.data);
+
       setFaqs(res.data.data);
     } catch (error) {
       console.log(error);

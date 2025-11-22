@@ -24,6 +24,7 @@ import { MaterialManagementPage } from "../pages/main/admin/products/Materials";
 import { ProductPageManagement } from "../pages/main/admin/products/ProductPage";
 import { ProductDetailManagement } from "../pages/main/admin/products/ProductDetailManagement";
 import { PortofolioManagement } from "../pages/main/admin/PortofolioMangement";
+import { PortoDetailManagement } from "../pages/main/admin/portofolio/PortoDetailPage";
 
 const rootRoute = createRootRoute({});
 
@@ -68,7 +69,7 @@ const portofolioPage = createRoute({
 });
 const portofolioDetail = createRoute({
   getParentRoute: () => userLayout,
-  path: "portofolio/detail",
+  path: "portofolio/detail/$productId",
   component: PortofolioDetailPage,
 });
 const productsPage = createRoute({
@@ -113,6 +114,11 @@ const productDetailManagement = createRoute({
   path: "products/detail/$productId",
   component: ProductDetailManagement,
 });
+const portofolioDetailManagement = createRoute({
+  getParentRoute: () => adminLayout,
+  path: "portofolio/detail/$portofolioId/management",
+  component: PortoDetailManagement,
+});
 const categoryManagement = createRoute({
   getParentRoute: () => adminLayout,
   path: "products/categories",
@@ -140,6 +146,7 @@ const routeTree = rootRoute.addChildren([
     productsManagement,
     productDetailManagement,
     portofolioManagement,
+    portofolioDetailManagement,
   ]),
   userLayout.addChildren([
     landingPage,

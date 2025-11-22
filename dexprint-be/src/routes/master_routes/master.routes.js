@@ -74,6 +74,10 @@ router.delete("/faq/:id", FAQController.deleteFAQ);
 
 // PRODUCT CRUD
 router.get("/products", ProductController.getAllProduct);
+router.get(
+  "/products-by-catergories",
+  ProductController.getAllProductByCategories
+);
 router.get("/product/:id", ProductController.getProductById);
 router.post(
   "/product",
@@ -107,16 +111,24 @@ router.put("/material/:id", MaterialController.updateMaterial);
 router.delete("/material/:id", MaterialController.deleteMaterial);
 
 // === PORTFOLIO ROUTES ===
-router.get("/portfolios", PortofolioController.getAllPortfolio);
-router.get("/portfolio/:id", PortofolioController.getPortfolioById);
+router.get("/portofolios", PortofolioController.getAllPortfolio);
+router.get("/portofolio/:id", PortofolioController.getPortfolioById);
 router.post(
-  "/portfolio",
+  "/portofolio",
   upload.array("images", 10),
   PortofolioController.createPortfolio
 );
-router.put("/portfolio/:id", PortofolioController.updatePortfolio);
-router.delete("/portfolio/:id", PortofolioController.deletePortfolio);
-
+router.put("/portofolio/:id", PortofolioController.updatePortfolio);
+router.delete("/portofolio/:id", PortofolioController.deletePortfolio);
+router.post(
+  "/portofolio/:portofolioId/images",
+  upload.array("images", 10),
+  PortofolioController.addPortfolioImage
+);
+router.delete(
+  "/portofolio/image/:imgId",
+  PortofolioController.deletePortfolioImage
+);
 // // ========================== PRODUCT IMAGE ROUTES ==========================
 
 // router.get("/product/images", ProductImgController.getAllImages);

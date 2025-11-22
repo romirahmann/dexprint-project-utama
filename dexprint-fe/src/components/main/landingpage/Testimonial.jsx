@@ -73,7 +73,7 @@ export function TestimonialSection() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        Apa Kata Pelanggan Kami
+        Kata mereka tentang kami
       </motion.h2>
       <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
         Kami berkomitmen memberikan kualitas terbaik untuk pelanggan kami.

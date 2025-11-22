@@ -25,16 +25,32 @@ export function ProductSection() {
   return (
     <section className="py-16 bg-white">
       <motion.h2
-        className="text-center text-4xl lg:text-5xl font-extrabold text-brand-orange mb-12"
+        className="text-center text-4xl lg:text-5xl font-extrabold text-brand-orange "
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
         Produk Kami
       </motion.h2>
+      <motion.p
+        className="text-center text-md lg:text-xl "
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        Good Process, Good Product.
+      </motion.p>
+      <motion.p
+        className="text-center text-sm lg:text-md  mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        Memastikan setiap proses terbaik menghasilkan produk berkualitas
+      </motion.p>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-6 md:px-16 max-w-full mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-6 md:px-16 max-w-7xl mx-auto">
         {products.map((product, i) => (
           <motion.button
             onClick={() => router.navigate({ to: "products" })}

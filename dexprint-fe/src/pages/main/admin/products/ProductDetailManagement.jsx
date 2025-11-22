@@ -17,12 +17,13 @@ export function ProductDetailManagement() {
   const [previewImages, setPreviewImages] = useState([]);
   const { showAlert } = useAlert();
   const router = useRouter();
-  // === Fetch Product by ID ===
+
   const fetchProductById = useCallback(async () => {
     if (!productId) return;
     setLoading(true);
     try {
       const res = await api.get(`/master/product/${productId}`);
+      console.log(res.data.data);
       setProduct(res.data.data);
     } catch (error) {
       console.error("Error fetching product:", error);
@@ -34,13 +35,10 @@ export function ProductDetailManagement() {
 
   useEffect(() => {
     fetchProductById();
-
-    // Listen to socket events for live update
     const events = ["product:image:add", "product:image:delete"];
     events.forEach((event) => listenToUpdate(event, fetchProductById));
   }, [fetchProductById]);
 
-  // === Handle Add Image (set preview) ===
   const handleAddImages = (e) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
@@ -52,7 +50,6 @@ export function ProductDetailManagement() {
     setPreviewImages(previews);
   };
 
-  // === Upload selected images ===
   const handleUploadImages = async () => {
     if (!previewImages.length) return;
     const formData = new FormData();
@@ -74,7 +71,6 @@ export function ProductDetailManagement() {
     }
   };
 
-  // === Delete Image ===
   const handleDeleteImage = async (imageId) => {
     const confirm = window.confirm(
       "Are you sure you want to delete this image?"
@@ -132,7 +128,7 @@ export function ProductDetailManagement() {
               <p className="text-lg font-semibold text-blue-600 mt-2">
                 Rp {Number(product.minprice).toLocaleString()}
               </p>
-              <div className="py-6">
+              <div className="py-6 truncate block">
                 <h2 className="text-xl font-semibold mb-2">Deskripsi</h2>
                 <p className="text-gray-700 leading-relaxed">
                   {product.description}

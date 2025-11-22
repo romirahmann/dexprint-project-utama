@@ -1,26 +1,52 @@
-/* Improved ProductPage with automatic zigzag sections */
+/* Improved ProductPage with automatic zigzag sections + Search */
 
 import { useState, useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight, FaSearch } from "react-icons/fa";
 
 import { DisplayProductLeft } from "../../../components/main/products/DisplayProductLeft";
 import { DisplayProductRight } from "../../../components/main/products/DisplayProductRight";
+import api from "../../../services/axios.service";
 
 export function ProductPage() {
+  const [categories, setCategories] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   const banners = [
     "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80",
     "https://images.unsplash.com/photo-1503602642458-232111445657?q=80",
     "https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80",
   ];
 
-  // CATEGORIES HANYA NAMA
-  const categories = [
-    "Display Promosi",
-    "Percetakan Indoor",
-    "Percetakan Outdoor",
-    "Merchandise",
-  ];
+  useEffect(() => {
+    fetchProductByCategory();
+  }, []);
 
+  const fetchProductByCategory = async () => {
+    try {
+      let res = await api.get("/master/products-by-catergories");
+      setCategories(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // SEARCH FUNCTION
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const allProducts = categories.flatMap((cat) => cat.products || []);
+    const filtered = allProducts.filter((item) =>
+      item.productName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    setSearchResults(filtered);
+  }, [searchQuery, categories]);
+
+  // Banner Slider
   const [current, setCurrent] = useState(0);
   const intervalRef = useRef(null);
 
@@ -62,14 +88,12 @@ export function ProductPage() {
         {/* Overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-6">
           <h1 className="text-4xl font-bold drop-shadow-lg">
-            Promo Terbaik untuk Produk Displaymu
+            Ide Kamu Berharga. Kami Siap Membuatnya Terlihat Nyata.
           </h1>
           <p className="mt-3 text-lg opacity-90 drop-shadow-md">
-            Temukan berbagai pilihan media promosi dengan harga bersahabat
+            Produk display, branding visual, dan solusi cetak premium — semuanya
+            ada di sini.
           </p>
-          <button className="mt-6 bg-white text-black px-6 py-2 rounded-full font-semibold shadow-md hover:bg-gray-200 transition">
-            Lihat Produk
-          </button>
         </div>
 
         {/* Controls */}
@@ -102,6 +126,8 @@ export function ProductPage() {
             <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <input
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari produk ..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-black/40 focus:outline-none transition"
             />
@@ -109,20 +135,59 @@ export function ProductPage() {
         </div>
       </header>
 
-      {/* PRODUCT SECTIONS — AUTO ZIGZAG */}
-      <div className="px-6 md:px-12 ">
-        {categories.map((title, index) => {
-          const isLeft = index % 2 === 0;
-          return (
-            <section key={index}>
-              {isLeft ? (
-                <DisplayProductLeft title={title} />
-              ) : (
-                <DisplayProductRight title={title} />
-              )}
-            </section>
-          );
-        })}
+      {/* PRODUCT SECTIONS / SEARCH RESULT */}
+      <div className="px-6 lg:px-42">
+        {searchQuery && searchResults.length > 0 ? (
+          <SearchResult products={searchResults} />
+        ) : searchQuery && searchResults.length === 0 ? (
+          <p className="text-center text-gray-500 mt-6">
+            Produk tidak ditemukan.
+          </p>
+        ) : (
+          categories.map((data, index) => {
+            const isLeft = index % 2 === 0;
+            return (
+              <section key={index}>
+                {isLeft ? (
+                  <DisplayProductLeft
+                    products={data.products}
+                    title={data.categoryName}
+                  />
+                ) : (
+                  <DisplayProductRight
+                    products={data.products}
+                    title={data.categoryName}
+                  />
+                )}
+              </section>
+            );
+          })
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* Simple Component For Search Result */
+function SearchResult({ products }) {
+  return (
+    <div className="mt-10">
+      <h3 className="text-xl font-semibold mb-4">
+        Hasil Pencarian ({products.length})
+      </h3>
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {products.map((item, index) => (
+          <div key={index} className="bg-white rounded-xl shadow p-3">
+            <div className="w-full h-36 rounded-lg overflow-hidden">
+              <img
+                src={item.images?.[0]?.url}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <p className="mt-2 font-semibold text-sm">{item.productName}</p>
+            <p className="text-xs text-gray-500">{item.minprice}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

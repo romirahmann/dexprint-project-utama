@@ -66,12 +66,20 @@ export function ServiceSection() {
       className="min-h-screen py-14 lg:py-24 bg-gradient-to-b from-white to-orange-50 text-center"
     >
       <motion.h2
-        className="text-4xl lg:text-5xl font-extrabold text-brand-orange mb-12"
+        className="text-4xl lg:text-5xl font-extrabold text-brand-orange "
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
         Layanan Kami
+      </motion.h2>
+      <motion.h2
+        className="text-md lg:text-xl mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        Selalu menjadi andalan di setiap kebutuhan anda
       </motion.h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 md:px-10 max-w-7xl mx-auto">

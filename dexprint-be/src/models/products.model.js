@@ -22,6 +22,41 @@ const getAll = async () => {
   return products;
 };
 
+const getByCategories = async () => {
+  const products = await db
+    .select("p.*", "c.categoryName")
+    .from("products as p")
+    .join("categories as c", "c.categoryId", "p.categoryId");
+
+  // Ambil images dan videos
+  for (const product of products) {
+    product.images = await db("product_img")
+      .select("imgId", "url", "note", "isThumbnail")
+      .where({ productId: product.productId });
+
+    product.videos = await db("product_videos")
+      .select("videoId", "videoUrl", "videoNote")
+      .where({ productId: product.productId });
+  }
+
+  // Grouping hasil berdasarkan categoryName
+  const grouped = products.reduce((acc, product) => {
+    const category = product.categoryName;
+
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+
+    acc[category].push(product);
+    return acc;
+  }, {});
+
+  // Ubah ke format array of objects
+  return Object.entries(grouped).map(([categoryName, products]) => ({
+    categoryName,
+    products,
+  }));
+};
 const getByproductId = async (id) => {
   const product = await db("products as p")
     .leftJoin("categories as c", "p.categoryId", "c.categoryId")
@@ -174,4 +209,5 @@ module.exports = {
   addVideo,
   deleteVideo,
   getProductImages,
+  getByCategories,
 };

@@ -1,6 +1,7 @@
 const portfolioModel = require("../../models/portofolio.model");
 const api = require("../../helper/common");
 const { emit } = require("../../services/socket.service");
+const cloud = require("../../helper/cloudinary");
 
 /* === PORTOFOLIO CRUD === */
 const getAllPortfolio = async (req, res) => {
@@ -79,7 +80,7 @@ const deletePortfolio = async (req, res) => {
 
     emit("portfolio:delete", { id });
 
-    return api.success(res, {}, "Portfolio deleted successfully");
+    return api.success(res, "Portfolio deleted successfully");
   } catch (error) {
     console.error("❌ deletePortfolio error:", error);
     return api.error(res, "Internal Server Error", 500);
@@ -88,20 +89,36 @@ const deletePortfolio = async (req, res) => {
 
 /* === PORTOFOLIO IMAGE === */
 const addPortfolioImage = async (req, res) => {
-  const { id } = req.params; // portoId
-  const { note } = req.body;
-  const file = req.file;
+  const { portofolioId } = req.params;
+  const files = req.files; // array of uploaded files
 
   try {
-    if (!file) return api.error(res, "Image file is required", 400);
+    if (!files || !files.length) {
+      return api.error(res, "Image files are required", 400);
+    }
 
-    const portfolio = await portfolioModel.getById(id);
-    if (!portfolio) return api.error(res, "Portfolio not found", 404);
+    const portfolio = await portfolioModel.getById(portofolioId);
+    if (!portfolio) {
+      return api.error(res, "Portfolio not found", 404);
+    }
 
-    const result = await portfolioModel.addImage(id, file.path, note);
-    emit("portfolio:image:add", { portfolioId: id, image: file.path });
+    const insertedImages = [];
 
-    return api.success(res, result, "Image added successfully");
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      const result = await portfolioModel.addImage(
+        portofolioId,
+        file.path,
+        file.originalname
+      );
+
+      insertedImages.push(result);
+    }
+
+    emit("portfolio:image:add", "Successfully");
+
+    return api.success(res, insertedImages, "Images added successfully");
   } catch (error) {
     console.error("❌ addPortfolioImage error:", error);
     return api.error(res, "Internal Server Error", 500);
@@ -110,11 +127,17 @@ const addPortfolioImage = async (req, res) => {
 
 const deletePortfolioImage = async (req, res) => {
   const { imgId } = req.params;
-
   try {
+    let img = await portfolioModel.getImages(imgId);
+
+    if (img) {
+      const publicId = cloud.getPublicId(img.url);
+      await cloud.deleteFile(publicId);
+    }
+
     await portfolioModel.deleteImage(imgId);
-    emit("portfolio:image:delete", { imgId });
-    return api.success(res, {}, "Image deleted successfully");
+    emit("portfolio:image:delete", { img });
+    return api.success(res, "SuccessFully");
   } catch (error) {
     console.error("❌ deletePortfolioImage error:", error);
     return api.error(res, "Internal Server Error", 500);

@@ -11,7 +11,7 @@ export function HeroSection() {
   const fetchBanner = useCallback(async () => {
     try {
       let res = await api.get("/master/heros");
-      console.log(res.data.data);
+
       setHeros(res.data.data);
     } catch (error) {
       console.log(error);
@@ -51,12 +51,20 @@ export function HeroSection() {
 
       <div className="relative z-10 flex flex-col justify-center items-center text-center h-full text-white px-6">
         <motion.h1
+          className="text-xl md:text-3xl font-extrabold mb-6 bg-gradient-to-r from-[#ff9a3e] to-[#6b6b6b] bg-clip-text text-transparent"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          Hi... Nice to meet you
+        </motion.h1>
+        <motion.h1
           className="text-4xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-[#ff9a3e] to-[#6b6b6b] bg-clip-text text-transparent"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          Not Just Print Shop We Are Your Partner
+          We’re Not Just a Print Shop <br /> We’re Your Creative Partner
         </motion.h1>
         <motion.p
           className="text-lg md:text-2xl max-w-2xl mb-8 text-gray-200"
