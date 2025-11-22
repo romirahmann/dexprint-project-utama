@@ -29,11 +29,14 @@ const getProductById = async (req, res) => {
 
 /* ========================== CREATE PRODUCT ========================== */
 const createProduct = async (req, res) => {
-  try {
-    const data = req.body;
-    if (!data) return api.error(res, "Data is require!", 400);
+  const data = req.body;
+  const files = req.files;
 
-    const result = await productModel.insert(data);
+  console.log(data, files);
+  try {
+    if (!data || !files) return api.error(res, "Data is require!", 400);
+
+    const result = await productModel.insert(data, files);
 
     emit("product:create", result);
     return api.success(res, result);
@@ -69,6 +72,16 @@ const deleteProduct = async (req, res) => {
     const existing = await productModel.getByproductId(id);
     if (!existing) return api.error(res, "Product not found", 404);
 
+    const images = await productModel.getProductImages(id);
+
+    if (images.length) {
+      for (const img of images) {
+        let publicId = cloud.getPublicId(img.url);
+        await cloud.deleteFile(publicId);
+      }
+    }
+
+    // 3️⃣ Hapus data di database (produk dan relasinya)
     await productModel.deleted(id);
     emit("product:delete", { id });
 
@@ -82,7 +95,6 @@ const deleteProduct = async (req, res) => {
 /* ========================== ADD PRODUCT IMAGE ========================== */
 const addProductImages = async (req, res) => {
   const { id } = req.params;
-  const { note } = req.body;
   const files = req.files;
 
   try {
@@ -95,14 +107,12 @@ const addProductImages = async (req, res) => {
     // Loop upload semua gambar
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      const isThumbnail = i === 0;
 
-      await productModel.addImage(
-        id,
-        file.path,
-        note || file.originalname,
-        isThumbnail
-      );
+      await productModel.addImage({
+        url: file.path,
+        note: file.originalname,
+        productId: id,
+      });
     }
 
     emit("product:image:add", { productId: id });
@@ -118,7 +128,7 @@ const deleteProductImage = async (req, res) => {
   const { imgId } = req.params;
 
   try {
-    const image = await db("product_img").where({ imgId }).first();
+    const image = await productModel.getImgById(imgId);
     if (!image) return api.error(res, "Image not found", 404);
 
     if (image.url) {

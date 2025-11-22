@@ -36,7 +36,7 @@ export function LoginPage() {
     try {
       const res = await api.post("/auth/login", form);
       const data = res.data.data;
-      console.log(data);
+
       dispatch(
         loginSuccess({
           user: data,

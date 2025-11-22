@@ -1,21 +1,34 @@
 /* eslint-disable no-unused-vars */
+import { useRouter } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import api from "../../../services/axios.service";
 
 export function HeroSection() {
-  const images = [
-    "https://images.unsplash.com/photo-1522205408450-add114ad53fe",
-    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-    "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-  ];
+  const router = useRouter();
+  const [heros, setHeros] = useState([]);
+
+  const fetchBanner = useCallback(async () => {
+    try {
+      let res = await api.get("/master/heros");
+      console.log(res.data.data);
+      setHeros(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  useEffect(() => {
+    fetchBanner();
+  }, []);
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
+      setCurrentIndex((prev) => (prev + 1) % heros.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [heros.length]);
 
   return (
     <section id="hero" className="relative w-full h-screen overflow-hidden">
@@ -23,9 +36,9 @@ export function HeroSection() {
       <div className="absolute inset-0">
         <AnimatePresence>
           <motion.div
-            key={images[currentIndex]}
+            key={heros[currentIndex]}
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${images[currentIndex]})` }}
+            style={{ backgroundImage: `url(${heros[currentIndex]?.file})` }}
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
@@ -43,7 +56,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          Solusi Cetak Cepat & Modern
+          Not Just Print Shop We Are Your Partner
         </motion.h1>
         <motion.p
           className="text-lg md:text-2xl max-w-2xl mb-8 text-gray-200"
@@ -51,15 +64,16 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
         >
-          PrintEase membantu UMKM dan kreator Gen Z mencetak ide hebat jadi
-          nyata.
+          Kami memahami setiap kebutuhan anda dan memastikan semua sesuai
+          harapan
         </motion.p>
         <motion.button
+          onClick={() => router.navigate({ to: "products" })}
           className="bg-[#ff9a3e] hover:bg-[#ff7f00] text-white font-semibold px-6 py-3 rounded-full shadow-md transition-all duration-300 hover:scale-105"
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
         >
-          Jelajahi Layanan
+          Jelajahi Produk
         </motion.button>
       </div>
     </section>

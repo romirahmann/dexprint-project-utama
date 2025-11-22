@@ -13,6 +13,7 @@ const FAQController = require("../../controllers/master_controller/FAQController
 const ProductController = require("../../controllers/master_controller/ProductController");
 const MaterialController = require("../../controllers/master_controller/MaterialController");
 const PortofolioController = require("../../controllers/master_controller/PortofolioController");
+const ProductImgController = require("../../controllers/master_controller/ProductImgController");
 
 // USER ROUTES
 router.get("/users", UserController.getAllUser);
@@ -74,14 +75,22 @@ router.delete("/faq/:id", FAQController.deleteFAQ);
 // PRODUCT CRUD
 router.get("/products", ProductController.getAllProduct);
 router.get("/product/:id", ProductController.getProductById);
-router.post("/product", ProductController.createProduct);
-router.put("/product/:id", ProductController.updateProduct);
+router.post(
+  "/product",
+  upload.array("images", 5),
+  ProductController.createProduct
+);
+router.put(
+  "/product/:id",
+  upload.array("images", 5),
+  ProductController.updateProduct
+);
 router.delete("/product/:id", ProductController.deleteProduct);
 
 // PRODUCT IMAGES
 router.post(
   "/product/:id/images",
-  upload.array("files", 10),
+  upload.array("images", 10),
   ProductController.addProductImages
 );
 router.delete("/product/image/:imgId", ProductController.deleteProductImage);
@@ -100,8 +109,25 @@ router.delete("/material/:id", MaterialController.deleteMaterial);
 // === PORTFOLIO ROUTES ===
 router.get("/portfolios", PortofolioController.getAllPortfolio);
 router.get("/portfolio/:id", PortofolioController.getPortfolioById);
-router.post("/portfolio", PortofolioController.createPortfolio);
+router.post(
+  "/portfolio",
+  upload.array("images", 10),
+  PortofolioController.createPortfolio
+);
 router.put("/portfolio/:id", PortofolioController.updatePortfolio);
 router.delete("/portfolio/:id", PortofolioController.deletePortfolio);
+
+// // ========================== PRODUCT IMAGE ROUTES ==========================
+
+// router.get("/product/images", ProductImgController.getAllImages);
+// router.get("/product/image/:imgId", ProductImgController.getImageById);
+// router.post(
+//   "/product/:id/images",
+//   upload.array("files", 10),
+//   ProductImgController.addImage
+// );
+// router.put("/product/image/:imgId", ProductImgController.updateImage);
+// router.delete("/product/image/:imgId", ProductImgController.deleteImage);
+// router.put("/product/:id/thumbnail/:imgId", ProductImgController.setThumbnail);
 
 module.exports = router;

@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useCallback } from "react";
 import { FaPlus, FaEdit, FaTrash, FaSearch } from "react-icons/fa";
-// nanti kita buat form nya
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { useAlert } from "../../../../store/AlertContext";
@@ -17,6 +16,7 @@ export function CategoryManagementPage() {
   const [categories, setCategories] = useState([]);
   const [modal, setModal] = useState({ isOpen: false, type: "" });
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const { showAlert } = useAlert();
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -27,7 +27,7 @@ export function CategoryManagementPage() {
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
-  });
+  }, []);
 
   useEffect(() => {
     fetchCategory();
@@ -106,11 +106,17 @@ export function CategoryManagementPage() {
     },
   ];
 
+  // Format data dengan nomor urut
   const formattedData = categories.map((cat, index) => ({
     no: index + 1,
     ...cat,
-    img: cat.img, // kolom image
+    img: cat.img,
   }));
+
+  // 🔍 Filter search berdasarkan categoryName
+  const filteredData = formattedData.filter((cat) =>
+    cat.categoryName?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="p-4 md:p-10 lg:w-full bg-gray-50 min-h-screen">
@@ -131,6 +137,8 @@ export function CategoryManagementPage() {
             <FaSearch className="text-gray-400" />
             <input
               placeholder="Cari kategori…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="ml-2 w-full outline-none text-gray-700"
             />
           </div>
@@ -147,7 +155,7 @@ export function CategoryManagementPage() {
       {/* TABLE */}
       <Table
         columns={columns}
-        data={formattedData}
+        data={filteredData}
         rowsPerPage={5}
         actionRenderer={actionRenderer}
       />
@@ -174,6 +182,7 @@ export function CategoryManagementPage() {
           onCancel={closeModal}
           onConfirm={handleDeleted}
           message={`Category "${selectedCategory?.categoryName}" akan dihapus dan tidak dapat dikembalikan.`}
+          loading={isDeleting}
         />
       )}
     </div>

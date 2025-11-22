@@ -42,17 +42,20 @@ export function Topbar({ onToggleSidebar }) {
       </button>
 
       {/* Search */}
-      <div className="flex items-center bg-gray-100/80 px-3 py-2 rounded-full focus-within:ring-2 focus-within:ring-orange-500 md:w-[20em] transition-all">
+      {/* <div className="flex items-center bg-gray-100/80 px-3 py-2 rounded-full focus-within:ring-2 focus-within:ring-orange-500 md:w-[20em] transition-all">
         <FiSearch className="text-gray-500 mr-2" size={18} />
         <input
           type="text"
           placeholder="Search..."
           className="bg-transparent outline-none w-full text-sm text-gray-700 placeholder-gray-500"
         />
-      </div>
+      </div> */}
 
       {/* Right Section */}
-      <div className="flex items-center gap-3 relative" ref={userMenuRef}>
+      <div
+        className="flex items-center gap-3 relative ms-auto "
+        ref={userMenuRef}
+      >
         {/* Notification */}
         <motion.button
           whileTap={{ scale: 0.9 }}

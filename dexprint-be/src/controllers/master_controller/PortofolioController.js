@@ -27,15 +27,14 @@ const getPortfolioById = async (req, res) => {
 
 const createPortfolio = async (req, res) => {
   try {
-    const { portoName, portoDesc, productId } = req.body;
-    if (!portoName || !productId)
-      return api.error(res, "portoName and productId are required", 400);
+    const data = req.body;
+    const files = req.files;
 
-    const result = await portfolioModel.insert({
-      portoName,
-      portoDesc,
-      productId,
-    });
+    if (!data) return api.error(res, "Data is required!", 400);
+
+    console.log(data, files);
+
+    const result = await portfolioModel.insert(data, files);
     emit("portfolio:create", result);
     return api.success(res, result, "Portfolio created successfully");
   } catch (error) {
@@ -67,8 +66,19 @@ const deletePortfolio = async (req, res) => {
     const existing = await portfolioModel.getById(id);
     if (!existing) return api.error(res, "Portfolio not found", 404);
 
+    const images = await portfolioModel.getPortfolioImages(id);
+
+    if (images.length) {
+      for (const img of images) {
+        const publicId = cloud.getPublicId(img.url);
+        await cloud.deleteFile(publicId);
+      }
+    }
+
     await portfolioModel.deleted(id);
+
     emit("portfolio:delete", { id });
+
     return api.success(res, {}, "Portfolio deleted successfully");
   } catch (error) {
     console.error("❌ deletePortfolio error:", error);

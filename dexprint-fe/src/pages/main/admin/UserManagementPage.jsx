@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { FaPlus, FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import { Table } from "../../../shared/Table";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "../../../services/axios.service";
 import Modal from "../../../shared/Modal";
 import UserForm from "../../../components/admin/users/UserForm";
@@ -14,17 +14,20 @@ export function UserManagementPage() {
   const [users, setUsers] = useState([]);
   const [modal, setModal] = useState({ isOpen: false, type: "" });
   const [selectedUser, setSelectedUser] = useState(null);
-  const { showAlert } = useAlert();
+  const [searchQuery, setSearchQuery] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const { showAlert } = useAlert();
 
+  // Fetch all users
   const fetchUser = useCallback(async () => {
     try {
       const res = await api.get("/master/users");
-      setUsers(res.data.data || []); // Replace, not append
+      setUsers(res.data.data || []);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  });
+  }, []);
+
   useEffect(() => {
     fetchUser();
 
@@ -33,16 +36,19 @@ export function UserManagementPage() {
     listenToUpdate("user_deleted", fetchUser);
   }, [fetchUser]);
 
+  // Open modal
   const openModal = (type, user = null) => {
     setSelectedUser(user);
     setModal({ isOpen: true, type });
   };
 
+  // Close modal
   const closeModal = () => {
     setModal({ isOpen: false, type: "" });
     setSelectedUser(null);
   };
 
+  // Action buttons in table
   const actionRenderer = (row) => (
     <div className="flex justify-center gap-3">
       <button
@@ -60,6 +66,7 @@ export function UserManagementPage() {
     </div>
   );
 
+  // Columns definition
   const columns = [
     { key: "no", label: "#" },
     { key: "username", label: "Username" },
@@ -80,18 +87,25 @@ export function UserManagementPage() {
     },
   ];
 
+  // Format users with index
   const formattedData = users.map((user, index) => ({
     no: index + 1,
     ...user,
   }));
 
+  // Filtered data based on search query
+  const filteredData = formattedData.filter((user) =>
+    user.username.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Handle delete user
   const handleDeleted = async () => {
     if (!selectedUser) {
       showAlert("error", "User not selected!");
       return;
     }
 
-    setIsDeleting(true); // ⬅️ start loading
+    setIsDeleting(true);
 
     try {
       await api.delete(`/master/user/${selectedUser.userId}`);
@@ -100,7 +114,7 @@ export function UserManagementPage() {
     } catch (error) {
       showAlert("error", "Failed to Delete User");
     } finally {
-      setIsDeleting(false); // ⬅️ stop loading
+      setIsDeleting(false);
     }
   };
 
@@ -115,12 +129,14 @@ export function UserManagementPage() {
           </p>
         </div>
 
-        {/* Search + Button */}
+        {/* Search + Add Button */}
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
           <div className="flex items-center bg-white border rounded-xl px-3 py-2 shadow-sm w-full sm:w-72">
             <FaSearch className="text-gray-400" />
             <input
               placeholder="Cari user…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="ml-2 w-full outline-none text-gray-700"
             />
           </div>
@@ -137,7 +153,7 @@ export function UserManagementPage() {
       {/* TABLE */}
       <Table
         columns={columns}
-        data={formattedData}
+        data={filteredData}
         rowsPerPage={5}
         actionRenderer={actionRenderer}
       />
@@ -164,6 +180,7 @@ export function UserManagementPage() {
           onCancel={closeModal}
           onConfirm={handleDeleted}
           message={`User "${selectedUser?.username}" akan dihapus dan tidak dapat dikembalikan.`}
+          loading={isDeleting}
         />
       )}
     </div>

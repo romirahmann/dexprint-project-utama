@@ -34,8 +34,30 @@ const getById = async (portoId) => {
   return porto;
 };
 
-// Insert portfolio
-const insert = async (data) => db("portofolio").insert(data);
+const insert = async (data, files) => {
+  return await db.transaction(async (trx) => {
+    const [portofolioId] = await trx("portofolio").insert({
+      portoName: data.portoName,
+      portoDesc: data.portoDesc,
+      productId: data.productId,
+      doDate: data.doDate,
+      client: data.client,
+    });
+
+    if (files && files.length > 0) {
+      const imgData = files.map((file) => ({
+        portofolioId,
+        url: file.path,
+        note: data.portoName || null,
+        portofolioId: data.portofolioId,
+      }));
+
+      await trx("portofolio_img").insert(imgData);
+    }
+
+    return { portofolioId };
+  });
+};
 
 // Update portfolio
 const update = async (portoId, data) =>

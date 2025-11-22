@@ -6,6 +6,7 @@ import { memo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrTextWrap } from "react-icons/gr";
 import { useRouter } from "@tanstack/react-router";
+import { FaArchive } from "react-icons/fa";
 
 export const Sidebar = memo(function AdminSidebar({
   isOpen,
@@ -19,11 +20,16 @@ export const Sidebar = memo(function AdminSidebar({
   };
 
   const menu = [
-    { name: "Dashboard", icon: <FiHome size={18} />, url: "/admin" },
+    // { name: "Dashboard", icon: <FiHome size={18} />, url: "/admin" },
     {
       name: "Profile",
       icon: <FaCircleUser size={18} />,
       url: "/admin/profile",
+    },
+    {
+      name: "Portofolio",
+      icon: <FaArchive size={18} />,
+      url: "/admin/portofolio",
     },
     {
       name: "Products",
@@ -31,7 +37,7 @@ export const Sidebar = memo(function AdminSidebar({
       url: "/admin/products",
       submenu: [
         { name: "All Products", url: "/admin/products" },
-        { name: "Materials", url: "/admin/products/materials" },
+        // { name: "Materials", url: "/admin/products/materials" },
         { name: "Categories", url: "/admin/products/categories" },
       ],
     },

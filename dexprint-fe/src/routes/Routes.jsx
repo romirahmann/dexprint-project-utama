@@ -20,6 +20,10 @@ import { UserManagementPage } from "../pages/main/admin/UserManagementPage";
 import { ProfileInfoPage } from "../pages/main/admin/ProfilePage";
 import { ContentPage } from "../pages/main/admin/ContentPage";
 import { CategoryManagementPage } from "../pages/main/admin/products/categories";
+import { MaterialManagementPage } from "../pages/main/admin/products/Materials";
+import { ProductPageManagement } from "../pages/main/admin/products/ProductPage";
+import { ProductDetailManagement } from "../pages/main/admin/products/ProductDetailManagement";
+import { PortofolioManagement } from "../pages/main/admin/PortofolioMangement";
 
 const rootRoute = createRootRoute({});
 
@@ -81,27 +85,47 @@ const contactPage = createRoute({
 // ADMIN
 const dashboardAdmin = createRoute({
   getParentRoute: () => adminLayout,
-  path: "/admin",
+  path: "dashboad",
   component: Dashboard,
 });
 const userManagement = createRoute({
   getParentRoute: () => adminLayout,
-  path: "/users",
+  path: "users",
   component: UserManagementPage,
 });
 const profilManagement = createRoute({
   getParentRoute: () => adminLayout,
-  path: "/profile",
+  path: "profile",
   component: ProfileInfoPage,
+});
+const portofolioManagement = createRoute({
+  getParentRoute: () => adminLayout,
+  path: "portofolio",
+  component: PortofolioManagement,
+});
+const productsManagement = createRoute({
+  getParentRoute: () => adminLayout,
+  path: "products",
+  component: ProductPageManagement,
+});
+const productDetailManagement = createRoute({
+  getParentRoute: () => adminLayout,
+  path: "products/detail/$productId",
+  component: ProductDetailManagement,
 });
 const categoryManagement = createRoute({
   getParentRoute: () => adminLayout,
-  path: "/products/categories",
+  path: "products/categories",
   component: CategoryManagementPage,
+});
+const materialManagement = createRoute({
+  getParentRoute: () => adminLayout,
+  path: "products/materials",
+  component: MaterialManagementPage,
 });
 const contentManagement = createRoute({
   getParentRoute: () => adminLayout,
-  path: "/content",
+  path: "content",
   component: ContentPage,
 });
 
@@ -111,6 +135,11 @@ const routeTree = rootRoute.addChildren([
     profilManagement,
     contentManagement,
     categoryManagement,
+    userManagement,
+    materialManagement,
+    productsManagement,
+    productDetailManagement,
+    portofolioManagement,
   ]),
   userLayout.addChildren([
     landingPage,
@@ -118,7 +147,6 @@ const routeTree = rootRoute.addChildren([
     productsPage,
     portofolioPage,
     contactPage,
-    userManagement,
   ]),
   loginPage,
 ]);

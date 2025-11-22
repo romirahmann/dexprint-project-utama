@@ -1,49 +1,25 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
+import api from "../../../services/axios.service";
 
 export function TestimonialSection() {
   const [testimonials, setTestimonials] = useState([]);
   const [index, setIndex] = useState(0); // posisi tengah
 
-  // 🚀 Dummy Data
-  useEffect(() => {
-    const dummy = [
-      {
-        name: "Rizky Putra",
-        feedback: "Pelayanan cepat dan hasil print sangat memuaskan!",
-        tenant: "PT Sinar Jaya",
-        fileIMG: "https://i.pravatar.cc/150?img=1",
-      },
-      {
-        name: "Dewi Anggraini",
-        feedback: "Harga terjangkau, kualitas juara. Pasti repeat order!",
-        tenant: "Dewi Bakery",
-        fileIMG: "https://i.pravatar.cc/150?img=2",
-      },
-      {
-        name: "Andi Pratama",
-        feedback: "Respons cepat dan sangat membantu kebutuhan desain saya.",
-        tenant: "Andi Studio",
-        fileIMG: "https://i.pravatar.cc/150?img=3",
-      },
-      {
-        name: "Sarah Lestari",
-        feedback: "Hasil print warna tajam dan staffnya ramah.",
-        tenant: "Sarah Fashion",
-        fileIMG: "https://i.pravatar.cc/150?img=4",
-      },
-      {
-        name: "Handoko",
-        feedback: "Rekomendasi banget buat print skala banyak!",
-        tenant: "Toko Maju",
-        fileIMG: "https://i.pravatar.cc/150?img=5",
-      },
-    ];
-
-    setTestimonials(dummy);
+  const fetchTestimoni = useCallback(async () => {
+    try {
+      const res = await api.get("/master/reviews");
+      setTestimonials(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchTestimoni();
+  }, [fetchTestimoni]);
 
   const prevSlide = () => {
     if (testimonials.length === 0) return;
@@ -55,13 +31,29 @@ export function TestimonialSection() {
     setIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
   };
 
-  // ambil 3 item: left, center, right
+  // ambil item yang akan ditampilkan
   const getVisibleItems = () => {
-    if (testimonials.length < 3) return testimonials;
+    const length = testimonials.length;
+    if (length === 0) return [];
 
-    const left = (index - 1 + testimonials.length) % testimonials.length;
+    if (length === 1) {
+      return [{ ...testimonials[0], position: "center" }];
+    }
+
+    if (length === 2) {
+      // gunakan index untuk menentukan posisi
+      const first = index % 2;
+      const second = (index + 1) % 2;
+      return [
+        { ...testimonials[first], position: "center" },
+        { ...testimonials[second], position: "side" },
+      ];
+    }
+
+    // default untuk 3 atau lebih
+    const left = (index - 1 + length) % length;
     const center = index;
-    const right = (index + 1) % testimonials.length;
+    const right = (index + 1) % length;
 
     return [
       { ...testimonials[left], position: "left" },
@@ -76,7 +68,7 @@ export function TestimonialSection() {
     <section className="py-20 bg-gray-50 text-center overflow-hidden relative">
       {/* Title */}
       <motion.h2
-        className="text-3xl md:text-4xl font-extrabold mb-4 text-[#ff9a3e] "
+        className="text-3xl md:text-4xl font-extrabold mb-4 text-[#ff9a3e]"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -100,20 +92,29 @@ export function TestimonialSection() {
         {/* Cards */}
         <div className="flex gap-6 justify-center">
           {visible.map((item, idx) => {
-            const isCenter = item.position === "center";
+            let scale = 1;
+            let opacity = 1;
+            let blur = "0px";
+            let zIndex = "z-20";
+
+            if (item.position === "center") {
+              scale = 1.1;
+              opacity = 1;
+              blur = "0px";
+              zIndex = "z-20";
+            } else {
+              scale = 0.9;
+              opacity = 0.6;
+              blur = "1px";
+              zIndex = "z-10";
+            }
 
             return (
               <motion.div
                 key={idx}
-                animate={{
-                  scale: isCenter ? 1.1 : 0.9,
-                  opacity: isCenter ? 1 : 0.6,
-                  filter: isCenter ? "blur(0px)" : "blur(1px)",
-                }}
+                animate={{ scale, opacity, filter: `blur(${blur})` }}
                 transition={{ duration: 0.4 }}
-                className={`${
-                  isCenter ? "z-20" : "z-10"
-                } relative bg-white p-8 rounded-2xl shadow-xl w-[260px] md:w-[320px]`}
+                className={`${zIndex} relative bg-white p-8 rounded-2xl shadow-xl w-[260px] md:w-[320px]`}
               >
                 <FaQuoteLeft className="text-[#ff9a3e] text-3xl absolute opacity-30 top-4 left-4" />
 

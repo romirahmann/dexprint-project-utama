@@ -1,20 +1,35 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaPhoneAlt,
   FaEnvelope,
   FaMapMarkerAlt,
   FaClock,
 } from "react-icons/fa";
+import api from "../../../services/axios.service";
 
 export function ContactSection() {
+  const [profile, setProfile] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
+
+  useEffect(() => {
+    const fetchById = async () => {
+      try {
+        const res = await api.get("/master/profile/1");
+        console.log(res.data.data);
+        setProfile(res.data.data);
+      } catch (error) {
+        console.log("Error fetching company profile:", error);
+      }
+    };
+    fetchById();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -57,30 +72,20 @@ export function ContactSection() {
 
           <div className="flex items-start gap-4 mb-5">
             <FaMapMarkerAlt className="text-[#ff9a3e] text-2xl" />
-            <p className="text-gray-700">
-              Jl. Mawar No. 12, Tangerang Selatan, Indonesia
-            </p>
+            <p className="text-gray-700">{profile?.address}</p>
           </div>
 
           <div className="flex items-start gap-4 mb-5">
             <FaPhoneAlt className="text-[#ff9a3e] text-2xl" />
             <p className="text-gray-700">
-              +62 812 3456 7890 <br />
+              {profile?.phone} <br />
               (WhatsApp tersedia)
             </p>
           </div>
 
           <div className="flex items-start gap-4 mb-5">
             <FaEnvelope className="text-[#ff9a3e] text-2xl" />
-            <p className="text-gray-700">support@awalan.co</p>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <FaClock className="text-[#ff9a3e] text-2xl" />
-            <p className="text-gray-700">
-              Senin – Jumat: 09:00 – 18:00 <br />
-              Sabtu: 10:00 – 15:00
-            </p>
+            <p className="text-gray-700">{profile?.email}</p>
           </div>
         </motion.div>
 

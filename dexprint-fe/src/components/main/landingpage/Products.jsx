@@ -2,8 +2,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import api from "../../../services/axios.service";
+import { useRouter } from "@tanstack/react-router";
 
 export function ProductSection() {
+  const router = useRouter();
   const [products, setProduct] = useState([]);
 
   useEffect(() => {
@@ -34,7 +36,8 @@ export function ProductSection() {
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-6 md:px-16 max-w-full mx-auto">
         {products.map((product, i) => (
-          <motion.div
+          <motion.button
+            onClick={() => router.navigate({ to: "products" })}
             key={i}
             className="bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden transition-all duration-300"
             whileHover={{ y: -5 }}
@@ -53,12 +56,12 @@ export function ProductSection() {
                 {product.category}
               </p>
             </div>
-          </motion.div>
+          </motion.button>
         ))}
       </div>
 
       {/* CTA Button */}
-      <motion.div
+      {/* <motion.div
         className="text-center mt-14"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -70,7 +73,7 @@ export function ProductSection() {
         >
           Lihat Produk Lebih Banyak
         </button>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
