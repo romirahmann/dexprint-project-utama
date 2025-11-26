@@ -57,6 +57,7 @@ export function PortofolioManagement() {
     setLoading(true);
     try {
       const res = await api.get(`/master/portfolios`);
+
       setPortfolios(Array.isArray(res.data.data) ? res.data.data : []);
     } catch (error) {
       console.error("Error fetching portfolios:", error);

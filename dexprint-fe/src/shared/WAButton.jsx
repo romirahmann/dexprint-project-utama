@@ -1,16 +1,31 @@
 /* eslint-disable no-unused-vars */
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaWhatsapp, FaTimes } from "react-icons/fa";
+import api from "../services/axios.service";
 
 export function WAButton() {
   const [visible, setVisible] = useState(true);
+  const [profile, setProfile] = useState([]);
 
-  const phone = "+6285881544898";
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      let res = await api.get("/master/profile");
+      setProfile(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const phone = profile.phone;
   const message = encodeURIComponent(
     "Halo, saya ingin bertanya tentang layanan Dexprint!"
   );
-  const link = `https://wa.me/${phone}?text=${message}`;
+  const link = `https://wa.me/+62${phone}?text=${message}`;
 
   if (!visible) return null;
 

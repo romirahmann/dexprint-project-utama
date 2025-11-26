@@ -16,7 +16,7 @@ export function LandingPage() {
         <HeroSection />
       </section>
 
-      <section id="layanan" className="scroll-mt-20 ">
+      <section id="layanan" className="scroll-mt-20">
         <ServiceSection />
       </section>
 
@@ -24,7 +24,7 @@ export function LandingPage() {
         <ProfileSection />
       </section>
 
-      <section id="CTA" className="scroll-mt-20">
+      <section id="clients" className="scroll-mt-20">
         <ClientSection />
       </section>
 
@@ -36,15 +36,18 @@ export function LandingPage() {
         <PortfolioPage />
       </section>
 
-      <section id="CTA" className="scroll-mt-20">
+      <section id="cta" className="scroll-mt-20">
         <CTASection />
       </section>
+
       <section id="testimonial" className="scroll-mt-20">
         <TestimonialSection />
       </section>
+
       <section id="faq" className="scroll-mt-20">
         <FAQSection />
       </section>
+
       <section id="kontak" className="scroll-mt-20">
         <ContactSection />
       </section>

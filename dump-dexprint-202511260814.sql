@@ -16,6 +16,37 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `banners`
+--
+
+DROP TABLE IF EXISTS `banners`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `banners` (
+  `bannerId` int NOT NULL AUTO_INCREMENT,
+  `page` enum('landingpage','product','portofolio','contact','about','custom') NOT NULL,
+  `title` varchar(150) DEFAULT NULL,
+  `subtitle` varchar(255) DEFAULT NULL,
+  `imageUrl` text NOT NULL,
+  `description` text,
+  `isActive` tinyint(1) DEFAULT '1',
+  `orderIndex` int DEFAULT '0',
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`bannerId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `banners`
+--
+
+LOCK TABLES `banners` WRITE;
+/*!40000 ALTER TABLE `banners` DISABLE KEYS */;
+/*!40000 ALTER TABLE `banners` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `categories`
 --
 
@@ -96,7 +127,7 @@ CREATE TABLE `companyprofile` (
 
 LOCK TABLES `companyprofile` WRITE;
 /*!40000 ALTER TABLE `companyprofile` DISABLE KEYS */;
-INSERT INTO `companyprofile` VALUES (1,'dexprint','085899310781','dexprint@gmail.com','2025-10-27','dexprint.com',200,'Karawang, Jawa Barat','Dexprint berdiri sejak tahun 2007 di Karawang Jawa Barat dengan fokus bisnis di bidang jasa layanan cetak kebutuhan perusahaan, instansi, sekolah, komunitas, UMKM, personal, dll. Terus tumbuh dan berkembang, lebih dari 10 tahun perjalanan mengantarkan Dexprint menjadi perusahaan jasa cetak terkemuka di Karawang dengan jangkauan layanan seluruh indonesia. Komitmen kami tanpa kompromi untuk menjadi mitra/vendor kbutuhan cetak yang dapat diandalkan. Mengedepankan pelayanan prima yang selalu siap sedia memenuhi kebutuhan cetak dengan produksi terbaik.','1. Menjadi perusahaan andalan solusi kebutuhan cetak\n2. Menjadi perusahaan yang mampu memberikan pengalaman mencetak\n3. Menjadi perusahaan yang senantiasa bertumbuh, berkembang, dan memberikan seluas-luasnya manfaat.','1. Menjalin hubungan baik dengan konsumen secara berkelanjutan.\n2. Selalu menjadi andalan yang siap sedia saat dibutuhkan.\n3. Berorientasi kepada kepuasan konsumen dan berkomitmen untuk senantiasa memberikan pelayanan dan produk terbaik.\n4. Memberikan sebesar-besarnya manfaat untuk konsumen.\n5. Senantiasa berinovasi dalam pengembangan produk dan layanan.');
+INSERT INTO `companyprofile` VALUES (1,'dexprint','85899310781','dexprint@gmail.com','2025-10-27','dexprint.com',200,'Karawang, Jawa Barat','Dexprint berdiri sejak tahun 2007 di Karawang Jawa Barat dengan fokus bisnis di bidang jasa layanan cetak kebutuhan perusahaan, instansi, sekolah, komunitas, UMKM, personal, dll. Terus tumbuh dan berkembang, lebih dari 10 tahun perjalanan mengantarkan Dexprint menjadi perusahaan jasa cetak terkemuka di Karawang dengan jangkauan layanan seluruh indonesia. Komitmen kami tanpa kompromi untuk menjadi mitra/vendor kbutuhan cetak yang dapat diandalkan. Mengedepankan pelayanan prima yang selalu siap sedia memenuhi kebutuhan cetak dengan produksi terbaik.','1. Menjadi perusahaan andalan solusi kebutuhan cetak\n2. Menjadi perusahaan yang mampu memberikan pengalaman mencetak\n3. Menjadi perusahaan yang senantiasa bertumbuh, berkembang, dan memberikan seluas-luasnya manfaat.','1. Menjalin hubungan baik dengan konsumen secara berkelanjutan.\n2. Selalu menjadi andalan yang siap sedia saat dibutuhkan.\n3. Berorientasi kepada kepuasan konsumen dan berkomitmen untuk senantiasa memberikan pelayanan dan produk terbaik.\n4. Memberikan sebesar-besarnya manfaat untuk konsumen.\n5. Senantiasa berinovasi dalam pengembangan produk dan layanan.');
 /*!40000 ALTER TABLE `companyprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +272,7 @@ CREATE TABLE `portofolio_img` (
 
 LOCK TABLES `portofolio_img` WRITE;
 /*!40000 ALTER TABLE `portofolio_img` DISABLE KEYS */;
-INSERT INTO `portofolio_img` VALUES (1,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763734495/dexprint/1763734493090-Gemini_Generated_Image_ecrffrecrffrecrf.png','Coffee Maker','2025-11-21 21:15:01',NULL),(2,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763734498/dexprint/1763734496447-ameicano.png','Coffee Maker','2025-11-21 21:15:01',NULL);
+INSERT INTO `portofolio_img` VALUES (1,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763734495/dexprint/1763734493090-Gemini_Generated_Image_ecrffrecrffrecrf.png','Coffee Maker','2025-11-21 21:15:01',1),(2,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763734498/dexprint/1763734496447-ameicano.png','Coffee Maker','2025-11-21 21:15:01',1);
 /*!40000 ALTER TABLE `portofolio_img` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -451,4 +482,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-22  8:32:48
+-- Dump completed on 2025-11-26  8:14:58

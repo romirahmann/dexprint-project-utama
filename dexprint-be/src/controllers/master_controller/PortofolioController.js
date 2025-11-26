@@ -7,6 +7,7 @@ const cloud = require("../../helper/cloudinary");
 const getAllPortfolio = async (req, res) => {
   try {
     const data = await portfolioModel.getAll();
+    console.log(data);
     return api.success(res, data);
   } catch (error) {
     console.error("❌ getAllPortfolio error:", error);

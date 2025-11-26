@@ -9,7 +9,9 @@ export function Navbar() {
 
   const handleScrollTo = (id) => {
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
     setOpen(false);
   };
 
@@ -19,11 +21,12 @@ export function Navbar() {
     { label: "Layanan", type: "scroll", target: "layanan" },
     { label: "Produk", type: "page", target: "/products" },
     { label: "Portofolio", type: "page", target: "/portofolio" },
-    { label: "FAQ", type: "scroll", target: "faq" },
+    { label: "FAQ", type: "faq", target: "/?scroll=faq" },
     { label: "Kontak", type: "page", target: "/contact" },
   ];
 
   const renderMenuItem = (item) => {
+    // HANDLE SCROLL TYPE (Within Same Page)
     if (item.type === "scroll") {
       return (
         <motion.button
@@ -37,6 +40,26 @@ export function Navbar() {
       );
     }
 
+    // HANDLE FAQ (Navigate + Auto Scroll via URL param)
+    if (item.type === "faq") {
+      return (
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring" }}
+        >
+          <Link
+            to="/"
+            search={{ scroll: "faq" }} // <--- Param dikirim balik ke home
+            onClick={() => setOpen(false)}
+            className="hover:text-[#ff7f00] transition-colors cursor-pointer"
+          >
+            {item.label}
+          </Link>
+        </motion.div>
+      );
+    }
+
+    // DEFAULT PAGE LINK
     return (
       <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring" }}>
         <Link
@@ -51,7 +74,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0  z-50 w-full bg-white/90 backdrop-blur-md shadow-md transition-all duration-300 select-none">
+    <nav className="fixed top-0 left-0 z-50 w-full bg-white/90 backdrop-blur-md shadow-md transition-all duration-300 select-none">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
         {/* BRAND LOGO */}
         <img

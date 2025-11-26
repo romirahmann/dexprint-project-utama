@@ -1,16 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import {
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaClock,
-} from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import api from "../../../services/axios.service";
 
 export function ContactSection() {
-  const [profile, setProfile] = useState([]);
+  const [profile, setProfile] = useState({});
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,8 +16,7 @@ export function ContactSection() {
   useEffect(() => {
     const fetchById = async () => {
       try {
-        const res = await api.get("/master/profile/1");
-        console.log(res.data.data);
+        const res = await api.get("/master/profile/");
         setProfile(res.data.data);
       } catch (error) {
         console.log("Error fetching company profile:", error);
@@ -37,15 +31,24 @@ export function ContactSection() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
 
-    alert("Pesan berhasil dikirim!");
+    const whatsappNumber = profile.phone?.replace(/^0/, "62") || ""; // Convert 08xxx to 62xxx
+    const message = `Halo, saya *${formData.name}*.\n
+Email: ${formData.email}\n
+No. HP: ${formData.phone}\n
+Pesan:\n${formData.message}`;
+
+    const link = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(link, "_blank"); // Buka WA
+
     setFormData({ name: "", email: "", phone: "", message: "" });
   };
 
   return (
     <section className="py-20 bg-white" id="contact">
-      {/* Title */}
       <motion.h2
         className="text-3xl md:text-4xl font-extrabold text-center text-[#ff9a3e]"
         initial={{ opacity: 0, y: 20 }}
@@ -156,7 +159,7 @@ export function ContactSection() {
             type="submit"
             className="mt-6 w-full py-3 bg-[#ff9a3e] text-white font-bold rounded-xl hover:bg-[#ff8310] transition"
           >
-            Kirim Pesan
+            Kirim ke WhatsApp
           </button>
         </motion.form>
       </div>

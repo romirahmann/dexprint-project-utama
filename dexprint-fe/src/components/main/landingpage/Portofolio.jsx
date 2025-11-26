@@ -52,10 +52,10 @@ export function PortfolioPage() {
               whileHover={{ y: -5 }}
             >
               {/* Gambar dengan PhotoView */}
-              <PhotoView src={item.images[0].url}>
+              <PhotoView src={item?.images[0]?.url}>
                 <img
-                  src={item.images[0].url}
-                  alt={item.images[0].note}
+                  src={item?.images[0]?.url}
+                  alt={item?.images[0]?.note}
                   className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110 cursor-pointer"
                 />
               </PhotoView>

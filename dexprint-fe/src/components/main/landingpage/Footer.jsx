@@ -1,11 +1,28 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
+import api from "../../../services/axios.service";
 
 export function Footer() {
+  const [profile, setProfile] = useState([]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      let res = await api.get("/master/profile");
+      setProfile(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <footer className="bg-gray-900 text-gray-300 py-12 px-6 md:px-16">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer className="bg-gray-900 text-gray-300 py-12 px-6 md:px-22">
+      <div className="max-w-full mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Brand Info */}
         <div>
           <motion.h3
@@ -16,11 +33,7 @@ export function Footer() {
           >
             Dexprint
           </motion.h3>
-          <p className="text-sm leading-relaxed">
-            Solusi percetakan modern untuk UMKM dan kreator muda. Kami bantu
-            mewujudkan ide kreatifmu jadi produk nyata dengan hasil cetak
-            terbaik.
-          </p>
+          <p className="text-sm leading-relaxed">{profile.description}</p>
         </div>
 
         {/* Quick Links */}
@@ -56,9 +69,9 @@ export function Footer() {
             Hubungi Kami
           </h4>
           <ul className="space-y-2 text-sm">
-            <li>📍 Jl. Raya UMKM No. 12, Karawang</li>
-            <li>📞 +62 812-xxxx-xxxx</li>
-            <li>✉️ support@dexprint.id</li>
+            <li>📍 {profile.address} </li>
+            <li>📞 {profile.phone} </li>
+            <li>✉️ {profile.email} </li>
           </ul>
         </div>
 
@@ -67,28 +80,21 @@ export function Footer() {
           <h4 className="text-lg font-semibold mb-4 text-white">Ikuti Kami</h4>
           <div className="flex items-center gap-4">
             <a
-              href="https://www.facebook.com"
-              target="_blank"
-              className="p-2 rounded-full bg-gray-800 hover:bg-[#ff9a3e] text-white transition"
-            >
-              <FaFacebookF />
-            </a>
-            <a
-              href="https://www.instagram.com"
+              href="https://www.instagram.com/dexprint.id/"
               target="_blank"
               className="p-2 rounded-full bg-gray-800 hover:bg-[#ff9a3e] text-white transition"
             >
               <FaInstagram />
             </a>
             <a
-              href="https://www.tiktok.com"
+              href="https://www.tiktok.com/@dexprint.id"
               target="_blank"
               className="p-2 rounded-full bg-gray-800 hover:bg-[#ff9a3e] text-white transition"
             >
               <FaTiktok />
             </a>
             <a
-              href="https://wa.me/6281234567890"
+              href={`https://wa.me/${profile.phone}`}
               target="_blank"
               className="p-2 rounded-full bg-gray-800 hover:bg-[#ff9a3e] text-white transition"
             >

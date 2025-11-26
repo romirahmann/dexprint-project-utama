@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* Improved ProductPage with automatic zigzag sections + Search */
 
 import { useState, useEffect, useRef } from "react";
@@ -6,12 +7,13 @@ import { FaChevronLeft, FaChevronRight, FaSearch } from "react-icons/fa";
 import { DisplayProductLeft } from "../../../components/main/products/DisplayProductLeft";
 import { DisplayProductRight } from "../../../components/main/products/DisplayProductRight";
 import api from "../../../services/axios.service";
+import { useRouter } from "@tanstack/react-router";
 
 export function ProductPage() {
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
+  const router = useRouter();
   const banners = [
     "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80",
     "https://images.unsplash.com/photo-1503602642458-232111445657?q=80",
@@ -152,11 +154,23 @@ export function ProductPage() {
                   <DisplayProductLeft
                     products={data.products}
                     title={data.categoryName}
+                    productSelected={(val) =>
+                      router.navigate({
+                        to: "$productId/detail",
+                        params: { productId: val.productId },
+                      })
+                    }
                   />
                 ) : (
                   <DisplayProductRight
                     products={data.products}
                     title={data.categoryName}
+                    productSelected={(val) =>
+                      router.navigate({
+                        to: "$productId/detail/",
+                        params: { productId: val.productId },
+                      })
+                    }
                   />
                 )}
               </section>

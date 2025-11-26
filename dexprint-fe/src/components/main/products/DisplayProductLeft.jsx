@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import api from "../../../services/axios.service";
 
-export function DisplayProductLeft({ products = [], title }) {
+export function DisplayProductLeft({ products = [], title, productSelected }) {
   const promoImage =
     "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&w=700";
 
@@ -56,7 +56,8 @@ export function DisplayProductLeft({ products = [], title }) {
               grid grid-cols-2 gap-4 md:gap-6 lg:flex lg:gap-4"
           >
             {products.map((item, index) => (
-              <div
+              <button
+                onClick={() => productSelected(item)}
                 key={index}
                 className="
                   bg-white rounded-xl shadow p-3 md:p-4 relative
@@ -87,7 +88,7 @@ export function DisplayProductLeft({ products = [], title }) {
                   Minimal Harga:{" "}
                   <span className="text-blue-500">{item.minprice}</span>
                 </p>
-              </div>
+              </button>
             ))}
           </div>
         </div>
