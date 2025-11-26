@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import api from "../../../services/axios.service";
+import { useRouter } from "@tanstack/react-router";
 
 export function PortfolioPage() {
   const [portfolioItems, setPortofolioItems] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(9); // Maksimal tampil awal
+  const router = useRouter();
 
   useEffect(() => {
     fetchPortofolio();
@@ -15,14 +18,14 @@ export function PortfolioPage() {
   const fetchPortofolio = async () => {
     try {
       let res = await api.get("/master/portofolios");
-
       setPortofolioItems(res.data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const itemsToShow = portfolioItems.length ? portfolioItems : [];
+  // Data yang ditampilkan hanya 9 pertama
+  const displayedItems = portfolioItems.slice(0, visibleCount);
 
   return (
     <section className="py-24 px-6 md:px-16 bg-white min-h-screen">
@@ -45,17 +48,16 @@ export function PortfolioPage() {
       {/* Portfolio Grid */}
       <PhotoProvider>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {itemsToShow.map((item, i) => (
+          {displayedItems.map((item, i) => (
             <motion.div
               key={i}
               className="relative overflow-hidden rounded-2xl shadow-md group"
               whileHover={{ y: -5 }}
             >
-              {/* Gambar dengan PhotoView */}
-              <PhotoView src={item?.images[0]?.url}>
+              <PhotoView src={item?.images?.[0]?.url}>
                 <img
-                  src={item?.images[0]?.url}
-                  alt={item?.images[0]?.note}
+                  src={item?.images?.[0]?.url}
+                  alt={item?.images?.[0]?.note}
                   className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110 cursor-pointer"
                 />
               </PhotoView>
@@ -70,6 +72,18 @@ export function PortfolioPage() {
           ))}
         </div>
       </PhotoProvider>
+
+      {/* Tombol Lihat Lebih Banyak */}
+      {portfolioItems.length > visibleCount && (
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={() => router.navigate({ to: "/portofolio" })}
+            className="px-6 py-3 bg-[#ff9a3e] hover:bg-[#e87f20] text-white rounded-lg shadow-md transition-all duration-300"
+          >
+            Lihat Lebih Banyak →
+          </button>
+        </div>
+      )}
     </section>
   );
 }

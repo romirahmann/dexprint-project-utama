@@ -41,11 +41,13 @@ export function ProductPageManagement() {
     setLoading(true);
     try {
       let query = `/master/products?limit=${limit}`;
+
       if (selectedCategory !== "all") {
         query += `&categoryId=${selectedCategory}`;
       }
 
       const res = await api.get(query);
+
       const data = Array.isArray(res.data.data) ? res.data.data : [];
       setProducts(data);
     } catch (error) {

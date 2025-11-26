@@ -95,7 +95,7 @@ export function FormPortofolio({ type = "ADD", initialData = null, onCancel }) {
       }
 
       if (type === "ADD") {
-        await api.post("/master/portfolio", formData);
+        await api.post("/master/portofolio", formData);
         showAlert("success", "Portfolio added successfully!");
       } else if (type === "EDIT" && initialData?.portofolioId) {
         await api.put(

@@ -45,7 +45,7 @@ export function LoginPage() {
       );
 
       showAlert("success", "Login Successfully!");
-      route.navigate({ to: "/admin" });
+      route.navigate({ to: "/admin/profile" });
     } catch (error) {
       dispatch(loginFailure(error.message));
       showAlert("error", "Login Failed, Please try again!");

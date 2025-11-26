@@ -37,7 +37,7 @@ export default function ContactPage() {
 
   const loadBanner = async () => {
     try {
-      const res = await api.get("/banners?page=contact");
+      const res = await api.get("/master/banners?page=contact");
       setBanner(res.data.data?.[0] || {});
     } catch (err) {
       console.log("Error loading banner:", err);
@@ -78,9 +78,9 @@ ${formData.message}`;
         />
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center px-6">
           <h1 className="text-xl md:text-3xl font-bold text-white text-center max-w-3xl leading-snug drop-shadow">
-            {banner?.title || "Butuh Bantuan atau Penawaran Cepat?"}
+            {"Butuh Bantuan atau Penawaran Cepat?"}
             <span className="text-5xl block text-brand-orange font-extrabold">
-              {banner?.subtitle || "Tim Kami Siap Melayani Anda."}
+              {"Tim Kami Siap Melayani Anda."}
             </span>
           </h1>
         </div>

@@ -14,15 +14,22 @@ export function ProductPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const router = useRouter();
-  const banners = [
-    "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80",
-    "https://images.unsplash.com/photo-1503602642458-232111445657?q=80",
-    "https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80",
-  ];
+  const [banners, setBanner] = useState([]);
 
   useEffect(() => {
     fetchProductByCategory();
+    fetchBanners();
   }, []);
+
+  const fetchBanners = async () => {
+    try {
+      let res = await api.get("/master/banners?page=product");
+
+      setBanner(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchProductByCategory = async () => {
     try {
@@ -79,7 +86,7 @@ export function ProductPage() {
           {banners.map((src, i) => (
             <img
               key={i}
-              src={src}
+              src={src.imageUrl}
               alt={`Promo Banner ${i + 1}`}
               loading="lazy"
               className="w-full h-full object-cover brightness-75 flex-shrink-0"

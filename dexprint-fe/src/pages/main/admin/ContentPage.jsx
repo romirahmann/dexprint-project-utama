@@ -1,3 +1,4 @@
+import { BannerManagement } from "../../../components/admin/content/BannerManagement";
 import { ClientSection } from "../../../components/admin/content/ClientSection";
 import { HeroSection } from "../../../components/admin/content/HeroSection";
 import { ReviewSection } from "../../../components/admin/content/ReviewSection";
@@ -18,6 +19,7 @@ export function ContentPage() {
           </header>
 
           <HeroSection />
+          <BannerManagement />
           <ReviewSection />
           <ClientSection />
         </div>

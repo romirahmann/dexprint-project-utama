@@ -11,7 +11,7 @@ import { Table } from "../../../shared/Table";
 import { FormPortofolio } from "../../../components/admin/portofolio/FormPortofolio";
 
 export function PortofolioManagement() {
-  const [portfolios, setPortfolios] = useState([]);
+  const [portofolios, setportofolios] = useState([]);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -22,7 +22,7 @@ export function PortofolioManagement() {
 
   const router = useRouter();
   const [modal, setModal] = useState({ isOpen: false, type: "" });
-  const [selectedPortfolio, setSelectedPortfolio] = useState(null);
+  const [selectedportofolio, setSelectedportofolio] = useState(null);
   const { showAlert } = useAlert();
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -52,30 +52,28 @@ export function PortofolioManagement() {
     fetchProducts();
   }, []);
 
-  // === Fetch Portfolios ===
-  const fetchPortfolios = useCallback(async () => {
+  // === Fetch portofolios ===
+  const fetchportofolios = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await api.get(`/master/portfolios`);
-
-      setPortfolios(Array.isArray(res.data.data) ? res.data.data : []);
+      const res = await api.get(`/master/portofolios`);
+      setportofolios(Array.isArray(res.data.data) ? res.data.data : []);
     } catch (error) {
-      console.error("Error fetching portfolios:", error);
-      setPortfolios([]);
+      console.error("Error fetching portofolios:", error);
+      setportofolios([]);
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchPortfolios();
+    fetchportofolios();
     ["portfolio:create", "portfolio:update", "portfolio:delete"].forEach(
-      (event) => listenToUpdate(event, fetchPortfolios)
+      (event) => listenToUpdate(event, fetchportofolios)
     );
-  }, [fetchPortfolios]);
+  }, [fetchportofolios]);
 
-  // === Filter Data di Frontend ===
-  const filteredPortfolios = portfolios.filter((item) => {
+  const filteredportofolios = portofolios.filter((item) => {
     const matchesCategory =
       selectedCategory === "all" ||
       String(item.categoryId) === String(selectedCategory);
@@ -96,27 +94,25 @@ export function PortofolioManagement() {
     return matchesCategory && matchesProduct && matchesSearch;
   });
 
-  // === Modal Handlers ===
-  const openModal = (type, portfolio = null) => {
-    setSelectedPortfolio(portfolio);
+  const openModal = (type, portofolio = null) => {
+    setSelectedportofolio(portofolio);
     setModal({ isOpen: true, type });
   };
 
   const closeModal = () => {
     setModal({ isOpen: false, type: "" });
-    setSelectedPortfolio(null);
+    setSelectedportofolio(null);
   };
 
-  // === DELETE HANDLER ===
   const handleDeleted = async () => {
-    if (!selectedPortfolio) return;
+    if (!selectedportofolio) return;
     setIsDeleting(true);
     try {
-      await api.delete(`/master/portfolio/${selectedPortfolio.portofolioId}`);
-      showAlert("success", "Portfolio deleted successfully!");
+      await api.delete(`/master/portofolio/${selectedportofolio.portofolioId}`);
+      showAlert("success", "portofolio deleted successfully!");
       closeModal();
     } catch (error) {
-      showAlert("error", "Failed to delete portfolio");
+      showAlert("error", "Failed to delete portofolio");
     } finally {
       setIsDeleting(false);
     }
@@ -154,7 +150,7 @@ export function PortofolioManagement() {
   );
 
   // === TABLE DATA ===
-  const formattedData = filteredPortfolios.map((p, index) => ({
+  const formattedData = filteredportofolios.map((p, index) => ({
     no: index + 1,
     ...p,
     image: p.images?.find((img) => img?.isThumbnail)?.url || null,
@@ -181,14 +177,14 @@ export function PortofolioManagement() {
             Portofolio Management
           </h1>
           <p className="text-gray-600 mt-1">
-            Manage your portfolio list efficiently
+            Manage your portofolio list efficiently
           </p>
         </div>
         <button
           onClick={() => openModal("ADD")}
           className="flex items-center justify-center gap-2 bg-[#FF7A00] hover:bg-[#ff8f2a] text-white px-5 py-2 rounded-xl shadow-md transition"
         >
-          <FiPlus /> Add Portfolio
+          <FiPlus /> Add portofolio
         </button>
       </div>
 
@@ -253,13 +249,13 @@ export function PortofolioManagement() {
       {/* ADD / EDIT MODAL */}
       {(modal.type === "ADD" || modal.type === "EDIT") && (
         <Modal
-          title={`${modal.type} Portfolio`}
+          title={`${modal.type} portofolio`}
           isOpen={modal.isOpen}
           onClose={closeModal}
         >
           <FormPortofolio
             type={modal.type}
-            initialData={selectedPortfolio}
+            initialData={selectedportofolio}
             onCancel={closeModal}
           />
         </Modal>
@@ -271,7 +267,7 @@ export function PortofolioManagement() {
           isOpen={modal.isOpen}
           onCancel={closeModal}
           onConfirm={handleDeleted}
-          message={`Portfolio "${selectedPortfolio?.portoName}" will be permanently deleted.`}
+          message={`portofolio "${selectedportofolio?.portoName}" will be permanently deleted.`}
           loading={isDeleting}
         />
       )}

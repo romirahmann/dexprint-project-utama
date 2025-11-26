@@ -6,7 +6,7 @@ import { memo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrTextWrap } from "react-icons/gr";
 import { useRouter } from "@tanstack/react-router";
-import { FaArchive } from "react-icons/fa";
+import { FaArchive, FaBalanceScale } from "react-icons/fa";
 
 export const Sidebar = memo(function AdminSidebar({
   isOpen,
@@ -42,6 +42,11 @@ export const Sidebar = memo(function AdminSidebar({
       ],
     },
     { name: "Konten", icon: <GrTextWrap size={18} />, url: "/admin/content" },
+    {
+      name: "Simulasi",
+      icon: <FaBalanceScale size={18} />,
+      url: "/admin/simulasi",
+    },
     { name: "Users", icon: <FiUsers size={18} />, url: "/admin/users" },
   ];
 

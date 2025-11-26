@@ -26,9 +26,9 @@ export function FAQSection() {
   };
 
   return (
-    <section id="faq" className="py-20 bg-gray-50 relative">
+    <section id="faq" className=" py-20 bg-gray-50 relative">
       <motion.div
-        className="max-w-full mx-auto px-6"
+        className="max-w-7xl  mx-auto px-6"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

@@ -26,6 +26,7 @@ import { ProductDetailManagement } from "../pages/main/admin/products/ProductDet
 import { PortofolioManagement } from "../pages/main/admin/PortofolioMangement";
 import { PortoDetailManagement } from "../pages/main/admin/portofolio/PortoDetailPage";
 import { UserProductDetail } from "../pages/main/users/user-product/DetailUserProduct";
+import SimulasiPage from "../pages/main/admin/SimulasiPage";
 
 const rootRoute = createRootRoute({});
 
@@ -140,6 +141,11 @@ const contentManagement = createRoute({
   path: "content",
   component: ContentPage,
 });
+const simulasiManagement = createRoute({
+  getParentRoute: () => adminLayout,
+  path: "simulasi",
+  component: SimulasiPage,
+});
 
 const routeTree = rootRoute.addChildren([
   adminLayout.addChildren([
@@ -153,6 +159,7 @@ const routeTree = rootRoute.addChildren([
     productDetailManagement,
     portofolioManagement,
     portofolioDetailManagement,
+    simulasiManagement,
   ]),
   userLayout.addChildren([
     landingPage,

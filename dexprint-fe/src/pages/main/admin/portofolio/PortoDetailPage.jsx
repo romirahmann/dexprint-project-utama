@@ -12,7 +12,7 @@ import ConfirmDeleteModal from "../../../../shared/ConfirmDeleted";
 
 export function PortoDetailManagement() {
   const { portofolioId } = useParams({});
-  const [portfolio, setPortfolio] = useState(null);
+  const [portofolio, setportofolio] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [previewImages, setPreviewImages] = useState([]);
@@ -23,27 +23,27 @@ export function PortoDetailManagement() {
   const { showAlert } = useAlert();
   const router = useRouter();
 
-  /** FETCH PORTFOLIO */
-  const fetchPortfolioById = useCallback(async () => {
+  /** FETCH portofolio */
+  const fetchportofolioById = useCallback(async () => {
     if (!portofolioId) return;
     setLoading(true);
     try {
-      const res = await api.get(`/master/portfolio/${portofolioId}`);
-      setPortfolio(res.data.data);
+      const res = await api.get(`/master/portofolio/${portofolioId}`);
+      setportofolio(res.data.data);
     } catch (error) {
-      console.error("Error fetching portfolio:", error);
-      setPortfolio(null);
+      console.error("Error fetching portofolio:", error);
+      setportofolio(null);
     } finally {
       setLoading(false);
     }
   }, [portofolioId]);
 
   useEffect(() => {
-    fetchPortfolioById();
-    ["portfolio:image:add", "portfolio:image:delete"].forEach((event) =>
-      listenToUpdate(event, fetchPortfolioById)
+    fetchportofolioById();
+    ["portofolio:image:add", "portofolio:image:delete"].forEach((event) =>
+      listenToUpdate(event, fetchportofolioById)
     );
-  }, [fetchPortfolioById]);
+  }, [fetchportofolioById]);
 
   /** PREVIEW IMAGES BEFORE UPLOAD */
   const handleAddImages = (e) => {
@@ -89,7 +89,7 @@ export function PortoDetailManagement() {
   /** EXECUTE DELETE AFTER CONFIRM */
   const handleConfirmDelete = async () => {
     try {
-      await api.delete(`/master/portfolio/image/${confirmData.imageId}`);
+      await api.delete(`/master/portofolio/image/${confirmData.imageId}`);
       showAlert("success", "Image deleted!");
     } catch {
       showAlert("error", "Failed to delete image");
@@ -101,9 +101,11 @@ export function PortoDetailManagement() {
   if (loading)
     return <div className="text-center py-10 text-gray-600">Loading...</div>;
 
-  if (!portfolio)
+  if (!portofolio)
     return (
-      <div className="text-center text-red-600 py-10">Portfolio not found!</div>
+      <div className="text-center text-red-600 py-10">
+        portofolio not found!
+      </div>
     );
 
   return (
@@ -114,7 +116,7 @@ export function PortoDetailManagement() {
         className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition mb-6"
       >
         <FiArrowLeft className="text-xl" />
-        <span className="font-medium">Back to Portfolios</span>
+        <span className="font-medium">Back to portofolios</span>
       </button>
 
       {/* Confirm Modal */}
@@ -128,20 +130,20 @@ export function PortoDetailManagement() {
 
       {/* Main Card */}
       <div className="bg-white rounded-2xl shadow-lg p-8">
-        {/* Portfolio Info */}
+        {/* portofolio Info */}
         <div className="space-y-6">
           <h1 className="text-3xl font-bold text-gray-900">
-            {portfolio.portfolioName}
+            {portofolio.portofolioName}
           </h1>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { label: "Category", value: portfolio.categoryName },
-              { label: "Product", value: portfolio.productName },
-              { label: "Client", value: portfolio.client || "-" },
+              { label: "Category", value: portofolio.categoryName },
+              { label: "Product", value: portofolio.productName },
+              { label: "Client", value: portofolio.client || "-" },
               {
                 label: "Date",
-                value: new Date(portfolio.doDate).toLocaleDateString(),
+                value: new Date(portofolio.doDate).toLocaleDateString(),
               },
             ].map((item, idx) => (
               <div key={idx} className="p-3 bg-gray-50 rounded-lg shadow-sm">
@@ -154,7 +156,7 @@ export function PortoDetailManagement() {
           <div>
             <h3 className="text-lg font-semibold mb-2">Description</h3>
             <p className="text-gray-600 leading-relaxed whitespace-pre-line">
-              {portfolio.portoDesc}
+              {portofolio.portoDesc}
             </p>
           </div>
         </div>
@@ -178,7 +180,7 @@ export function PortoDetailManagement() {
 
           <PhotoProvider>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {portfolio.images?.map((img) => (
+              {portofolio.images?.map((img) => (
                 <div
                   key={img.id}
                   className="relative group rounded-lg overflow-hidden shadow-md"

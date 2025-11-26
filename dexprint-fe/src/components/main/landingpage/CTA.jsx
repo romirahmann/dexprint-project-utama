@@ -1,10 +1,36 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import api from "../../../services/axios.service";
 
 export function CTASection() {
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get("/master/profile/");
+        setProfile(res.data.data);
+      } catch (error) {
+        console.log("Error fetching profile:", error);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  const handleWhatsApp = () => {
+    if (!profile.phone) return;
+    const whatsappNumber = profile.phone.replace(/^0/, "62"); // 08xxx → 62xxx
+    const message = `Halo, saya tertarik dengan layanan cetak Anda.`;
+    const link = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(link, "_blank");
+  };
+
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center bg-linear-to-r from-[#ff9a3e] to-[#ff6a00] text-white relative overflow-hidden">
+    <section className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-[#ff9a3e] to-[#ff6a00] text-white relative overflow-hidden">
       {/* Background Accent */}
       <motion.div
         className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')]"
@@ -29,17 +55,15 @@ export function CTASection() {
           bersahabat.
         </p>
 
-        <motion.a
-          href="https://wa.me/6281234567890"
-          target="_blank"
-          rel="noopener noreferrer"
+        <motion.button
+          onClick={handleWhatsApp}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="inline-flex items-center gap-3 bg-white text-[#ff6a00] font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all"
         >
           <FaWhatsapp className="text-2xl" />
           Chat via WhatsApp
-        </motion.a>
+        </motion.button>
       </motion.div>
 
       {/* Decorative motion elements */}

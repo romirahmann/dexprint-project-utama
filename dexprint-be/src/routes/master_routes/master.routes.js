@@ -13,7 +13,7 @@ const FAQController = require("../../controllers/master_controller/FAQController
 const ProductController = require("../../controllers/master_controller/ProductController");
 const MaterialController = require("../../controllers/master_controller/MaterialController");
 const PortofolioController = require("../../controllers/master_controller/PortofolioController");
-const ProductImgController = require("../../controllers/master_controller/ProductImgController");
+const BannerController = require("../../controllers/master_controller/BannerController.js");
 
 // USER ROUTES
 router.get("/users", UserController.getAllUser);
@@ -129,17 +129,12 @@ router.delete(
   "/portofolio/image/:imgId",
   PortofolioController.deletePortfolioImage
 );
-// // ========================== PRODUCT IMAGE ROUTES ==========================
 
-// router.get("/product/images", ProductImgController.getAllImages);
-// router.get("/product/image/:imgId", ProductImgController.getImageById);
-// router.post(
-//   "/product/:id/images",
-//   upload.array("files", 10),
-//   ProductImgController.addImage
-// );
-// router.put("/product/image/:imgId", ProductImgController.updateImage);
-// router.delete("/product/image/:imgId", ProductImgController.deleteImage);
-// router.put("/product/:id/thumbnail/:imgId", ProductImgController.setThumbnail);
+// === BANNER ===
 
+router.get("/banners", BannerController.getAllBanner);
+router.get("/banner/:id", BannerController.getBannerById);
+router.post("/banner", upload.single("file"), BannerController.createBanner);
+router.put("/banner/:id", upload.single("file"), BannerController.updateBanner);
+router.delete("/banner/:id", BannerController.deleteBanner);
 module.exports = router;

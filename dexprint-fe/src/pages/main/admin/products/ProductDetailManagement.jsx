@@ -5,7 +5,7 @@ import { FaPlus } from "react-icons/fa";
 import { FiEye, FiTrash2 } from "react-icons/fi";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
-import api from "../../../../services/axios.service"; // pastikan path sesuai
+import api from "../../../../services/axios.service";
 import { listenToUpdate } from "../../../../services/socket.service";
 import { useAlert } from "../../../../store/AlertContext";
 
@@ -23,7 +23,6 @@ export function ProductDetailManagement() {
     setLoading(true);
     try {
       const res = await api.get(`/master/product/${productId}`);
-      console.log(res.data.data);
       setProduct(res.data.data);
     } catch (error) {
       console.error("Error fetching product:", error);
@@ -52,6 +51,7 @@ export function ProductDetailManagement() {
 
   const handleUploadImages = async () => {
     if (!previewImages.length) return;
+
     const formData = new FormData();
     previewImages.forEach((img) => formData.append("images", img.file));
 
@@ -108,27 +108,29 @@ export function ProductDetailManagement() {
         </button>
       </div>
 
-      <div className="min-h-screen bg-gray-50 py-6 px-4 flex justify-center">
-        <div className="w-full max-w-full bg-white rounded-xl shadow-lg p-6 md:p-8">
+      <div className="bg-gray-50 py-6 px-4 md:px-8 lg:px-12 flex justify-center">
+        <div className="w-full max-w-6xl bg-white rounded-xl shadow-lg p-6 md:p-8">
           {/* Header */}
           <div className="flex flex-col md:flex-row gap-6 border-b pb-6">
             <img
               src={activeImage}
               alt={product.productName}
-              className="w-full md:w-50 h-50 object-cover rounded-lg shadow-md"
+              className="w-full md:w-1/2 h-64 md:h-80 object-cover rounded-lg shadow-md"
             />
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold text-gray-800">
-                {product.productName}
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">
-                Kategori:{" "}
-                <span className="font-medium">{product.categoryName}</span>
-              </p>
-              <p className="text-lg font-semibold text-blue-600 mt-2">
-                Rp {Number(product.minprice).toLocaleString()}
-              </p>
-              <div className="py-6 truncate block">
+            <div className="flex-1 flex flex-col justify-between">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-800">
+                  {product.productName}
+                </h1>
+                <p className="text-sm text-gray-500 mt-1">
+                  Kategori:{" "}
+                  <span className="font-medium">{product.categoryName}</span>
+                </p>
+                <p className="text-lg font-semibold text-blue-600 mt-2">
+                  Rp {Number(product.minprice).toLocaleString()}
+                </p>
+              </div>
+              <div className="mt-4">
                 <h2 className="text-xl font-semibold mb-2">Deskripsi</h2>
                 <p className="text-gray-700 leading-relaxed">
                   {product.description}
@@ -153,15 +155,15 @@ export function ProductDetailManagement() {
             </div>
 
             <PhotoProvider>
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                {/* existing product images */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                {/* Existing Images */}
                 {product.images?.map((img, idx) => (
-                  <div key={`prod-${idx}`} className="relative group">
+                  <div key={idx} className="relative group">
                     <PhotoView src={img.url}>
                       <img
                         src={img.url}
                         alt={`Product img ${idx}`}
-                        className="w-full h-30 lg:h-50 object-cover rounded-md cursor-pointer shadow-sm transition-transform duration-200 hover:scale-105"
+                        className="w-full h-40 md:h-48 lg:h-50 object-cover rounded-md cursor-pointer shadow-sm transition-transform duration-200 hover:scale-105"
                       />
                     </PhotoView>
                     <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-25 opacity-0 group-hover:opacity-100 transition">
@@ -178,14 +180,14 @@ export function ProductDetailManagement() {
                   </div>
                 ))}
 
-                {/* preview images */}
+                {/* Preview Images */}
                 {previewImages.map((img, idx) => (
                   <div key={`preview-${idx}`} className="relative group">
                     <PhotoView src={img.url}>
                       <img
                         src={img.url}
                         alt={`Preview img ${idx}`}
-                        className="w-full h-30 lg:h-50 object-cover rounded-md cursor-pointer shadow-sm transition-transform duration-200 hover:scale-105 opacity-80"
+                        className="w-full h-40 md:h-48 lg:h-50 object-cover rounded-md cursor-pointer shadow-sm transition-transform duration-200 hover:scale-105 opacity-80"
                       />
                     </PhotoView>
                   </div>
@@ -193,7 +195,6 @@ export function ProductDetailManagement() {
               </div>
             </PhotoProvider>
 
-            {/* Upload button */}
             {previewImages.length > 0 && (
               <button
                 onClick={handleUploadImages}
@@ -213,7 +214,7 @@ export function ProductDetailManagement() {
                   key={idx}
                   src={vid.videoUrl.replace("watch?v=", "embed/")}
                   title={`Video ${idx}`}
-                  className="w-full h-[30em] rounded-lg shadow"
+                  className="w-full h-72 md:h-96 rounded-lg shadow"
                   allowFullScreen
                 ></iframe>
               ))}
