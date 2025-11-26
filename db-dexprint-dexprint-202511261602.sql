@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: dexprint
 -- ------------------------------------------------------
--- Server version	8.0.43
+-- Server version	8.0.41
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,7 +26,6 @@ CREATE TABLE `banners` (
   `bannerId` int NOT NULL AUTO_INCREMENT,
   `page` enum('landingpage','product','portofolio','contact','about','custom') NOT NULL,
   `title` varchar(150) DEFAULT NULL,
-  `subtitle` varchar(255) DEFAULT NULL,
   `imageUrl` text NOT NULL,
   `description` text,
   `isActive` tinyint(1) DEFAULT '1',
@@ -34,7 +33,7 @@ CREATE TABLE `banners` (
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`bannerId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +42,7 @@ CREATE TABLE `banners` (
 
 LOCK TABLES `banners` WRITE;
 /*!40000 ALTER TABLE `banners` DISABLE KEYS */;
+INSERT INTO `banners` VALUES (6,'product','banner1-min.jpg','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143531/dexprint/1764143528935-banner1-min.jpg',NULL,1,0,'2025-11-26 07:52:11','2025-11-26 07:52:11'),(7,'portofolio','banner2-min.jpg','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143545/dexprint/1764143542793-banner2-min.jpg',NULL,1,0,'2025-11-26 07:52:25','2025-11-26 07:52:25'),(8,'contact','banner3-min.jpg','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143554/dexprint/1764143552463-banner3-min.jpg',NULL,1,0,'2025-11-26 07:52:35','2025-11-26 07:52:35');
 /*!40000 ALTER TABLE `banners` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +58,7 @@ CREATE TABLE `categories` (
   `categoryName` varchar(100) DEFAULT NULL,
   `img` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`categoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (9,'Banner','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763563921/dexprint/1763563916536-Open%20Delivery%21.png'),(10,'Display Promosi','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763563785/dexprint/1763563780671-Group%2031.png'),(11,'Office Stationary','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763563822/dexprint/1763563818637-Group%20123.png'),(12,'Marketing Kits','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763563845/dexprint/1763563839683-Group%20124.png'),(13,'Souvenir/Merchandise','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763563870/dexprint/1763563866705-Group%20125.png');
+INSERT INTO `categories` VALUES (14,'Banner','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143291/dexprint/1764143289928-category_banner.jpg'),(15,'Display Promosi','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143309/dexprint/1764143307799-category_display%20promosi.jpg'),(16,'Office Stationary','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143323/dexprint/1764143321539-category_office.jpg'),(17,'Marketing Kits','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143337/dexprint/1764143336022-category_marketing.jpg'),(18,'Souvenir/Merchandise','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143368/dexprint/1764143366617-category_souvenir.jpg');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ CREATE TABLE `clients` (
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`clientId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +94,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (12,'AWALAN','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763533940/dexprint/y2sudk3d87wzutsccxsn.png','2025-11-19 06:32:20','2025-11-19 06:32:20'),(14,'Tiktok','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763534729/dexprint/a71lxjxiovxqmmydfv8f.png','2025-11-19 06:45:29','2025-11-19 06:45:29'),(15,'Instagram','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763534746/dexprint/kmlurq2qhwghgtqenhdb.png','2025-11-19 06:45:46','2025-11-19 06:45:46');
+INSERT INTO `clients` VALUES (16,'dexprint','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143922/dexprint/1764143920826-logo%20dexprint%20orange.png','2025-11-26 07:58:42','2025-11-26 07:58:42'),(17,'AWALAN','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143947/dexprint/1764143946340-AWALAN.jpg','2025-11-26 07:59:07','2025-11-26 07:59:07'),(18,'Ryehana','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143994/dexprint/1764143992844-1003772176.jpg','2025-11-26 07:59:55','2025-11-26 07:59:55'),(19,'GRANTIK','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764144024/dexprint/1764144022115-grantik.png','2025-11-26 08:00:24','2025-11-26 08:00:24');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +173,7 @@ CREATE TABLE `hero_banner` (
   `file` varchar(255) DEFAULT NULL,
   `type` enum('landingpage','katalog') DEFAULT 'landingpage',
   PRIMARY KEY (`bannerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,7 +182,7 @@ CREATE TABLE `hero_banner` (
 
 LOCK TABLES `hero_banner` WRITE;
 /*!40000 ALTER TABLE `hero_banner` DISABLE KEYS */;
-INSERT INTO `hero_banner` VALUES (15,'open delivery.png','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763524446/dexprint/lw2f1tweuvztbemcohvl.png','landingpage'),(16,'Toast.png','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763524448/dexprint/hazezt4ylpq5yserr14e.png','landingpage'),(18,'PIZZA.png','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763526055/dexprint/yskorbbyl0oo6j4fl2gw.png','landingpage');
+INSERT INTO `hero_banner` VALUES (19,'banner1-min.jpg','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143493/dexprint/1764143490282-banner1-min.jpg','landingpage'),(20,'banner2-min.jpg','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143495/dexprint/1764143492296-banner2-min.jpg','landingpage'),(21,'banner3-min.jpg','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143495/dexprint/1764143494693-banner3-min.jpg','landingpage');
 /*!40000 ALTER TABLE `hero_banner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,8 +233,8 @@ CREATE TABLE `portofolio` (
   `client` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`portofolioId`),
   KEY `portofolio_products_FK` (`productId`),
-  CONSTRAINT `portofolio_products_FK` FOREIGN KEY (`productId`) REFERENCES `products` (`productId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `portofolio_products_FK` FOREIGN KEY (`productId`) REFERENCES `products` (`productId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,7 +243,7 @@ CREATE TABLE `portofolio` (
 
 LOCK TABLES `portofolio` WRITE;
 /*!40000 ALTER TABLE `portofolio` DISABLE KEYS */;
-INSERT INTO `portofolio` VALUES (1,'Coffee Maker','Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit.','2025-11-21 21:15:01','2025-11-21 21:15:01',11,'2025-11-01','AWALAN COFFEE');
+INSERT INTO `portofolio` VALUES (2,'Coffee Maker','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit','2025-11-26 15:17:03','2025-11-26 15:17:03',12,'2025-11-01','AWALAN COFFEE');
 /*!40000 ALTER TABLE `portofolio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,8 +262,8 @@ CREATE TABLE `portofolio_img` (
   `portofolioId` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `portofolio_img_portofolio_FK` (`portofolioId`),
-  CONSTRAINT `portofolio_img_portofolio_FK` FOREIGN KEY (`portofolioId`) REFERENCES `portofolio` (`portofolioId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `portofolio_img_portofolio_FK` FOREIGN KEY (`portofolioId`) REFERENCES `portofolio` (`portofolioId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,7 +272,7 @@ CREATE TABLE `portofolio_img` (
 
 LOCK TABLES `portofolio_img` WRITE;
 /*!40000 ALTER TABLE `portofolio_img` DISABLE KEYS */;
-INSERT INTO `portofolio_img` VALUES (1,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763734495/dexprint/1763734493090-Gemini_Generated_Image_ecrffrecrffrecrf.png','Coffee Maker','2025-11-21 21:15:01',1),(2,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763734498/dexprint/1763734496447-ameicano.png','Coffee Maker','2025-11-21 21:15:01',1);
+INSERT INTO `portofolio_img` VALUES (3,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1764145020/dexprint/1764145017593-SUSU%20SODA%20MENTAH.png','Coffee Maker','2025-11-26 15:17:03',NULL),(4,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1764145022/dexprint/1764145019766-lechyee%20mentah.png','Coffee Maker','2025-11-26 15:17:03',NULL),(5,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1764145022/dexprint/1764145021938-lemon%20tea%20mentah.png','Coffee Maker','2025-11-26 15:17:03',NULL);
 /*!40000 ALTER TABLE `portofolio_img` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,7 +292,7 @@ CREATE TABLE `product_img` (
   PRIMARY KEY (`imgId`),
   KEY `product_img_products_FK` (`productId`),
   CONSTRAINT `product_img_products_FK` FOREIGN KEY (`productId`) REFERENCES `products` (`productId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -301,7 +301,7 @@ CREATE TABLE `product_img` (
 
 LOCK TABLES `product_img` WRITE;
 /*!40000 ALTER TABLE `product_img` DISABLE KEYS */;
-INSERT INTO `product_img` VALUES (35,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763733407/dexprint/1763733406868-ceremonial.png','COFFEE',11,0),(36,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763733409/dexprint/1763733406923-Gemini_Generated_Image_ecrffrecrffrecrf.png','COFFEE',11,0),(37,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763733409/dexprint/1763733410652-ameicano.png','COFFEE',11,0),(38,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763733413/dexprint/1763733411355-Gemini_Generated_Image_arihw9arihw9arih.png','COFFEE',11,0),(39,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1763733413/dexprint/1763733414895-latteart.jpg','COFFEE',11,0);
+INSERT INTO `product_img` VALUES (40,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1764144157/dexprint/1764144155705-aren.png','Kopsu Aren',12,0),(41,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1764144220/dexprint/1764144218491-HOT%20Latte.png','Latte',13,0),(42,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1764144292/dexprint/1764144289395-Gemini_Generated_Image_kvd3irkvd3irkvd3.png','Caramel Matchiato',14,0),(43,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1764144337/dexprint/1764144334678-cheesecuit%20oreo.png','Cheescuit',15,0),(44,'https://res.cloudinary.com/dmedjs0rb/image/upload/v1764144367/dexprint/1764144364699-Dirty%20Late.png','Dirty Latte',16,0);
 /*!40000 ALTER TABLE `product_img` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +320,7 @@ CREATE TABLE `product_videos` (
   PRIMARY KEY (`videoId`),
   KEY `product_videos_products_FK` (`productId`),
   CONSTRAINT `product_videos_products_FK` FOREIGN KEY (`productId`) REFERENCES `products` (`productId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -329,7 +329,7 @@ CREATE TABLE `product_videos` (
 
 LOCK TABLES `product_videos` WRITE;
 /*!40000 ALTER TABLE `product_videos` DISABLE KEYS */;
-INSERT INTO `product_videos` VALUES ('https://www.youtube.com/watch?v=R4kfLkUdFmw',NULL,11,10);
+INSERT INTO `product_videos` VALUES ('https://www.youtube.com/embed/Rmu4mu2V-GQ',NULL,12,11),('https://www.youtube.com/embed/Rmu4mu2V-GQ',NULL,13,12),('https://www.youtube.com/embed/Rmu4mu2V-GQ',NULL,14,13),('https://www.youtube.com/embed/Rmu4mu2V-GQ',NULL,15,14),('https://www.youtube.com/embed/Rmu4mu2V-GQ',NULL,16,15);
 /*!40000 ALTER TABLE `product_videos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -350,7 +350,7 @@ CREATE TABLE `products` (
   PRIMARY KEY (`productId`),
   KEY `products_categories_FK` (`categoryId`),
   CONSTRAINT `products_categories_FK` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -359,7 +359,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (11,'COFFEE',13,'ini testing untuk add product, Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis.',8000,0);
+INSERT INTO `products` VALUES (12,'Kopsu Aren',18,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',15000,0),(13,'Latte',17,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit',15000,0),(14,'Caramel Matchiato',16,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit',18000,0),(15,'Cheescuit',15,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit',18000,0),(16,'Dirty Latte',14,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit',20000,0);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -377,7 +377,7 @@ CREATE TABLE `reviews` (
   `fileIMG` varchar(100) DEFAULT NULL,
   `tenant` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`reviewId`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,7 +386,7 @@ CREATE TABLE `reviews` (
 
 LOCK TABLES `reviews` WRITE;
 /*!40000 ALTER TABLE `reviews` DISABLE KEYS */;
-INSERT INTO `reviews` VALUES (6,'Romi Rahman','Percetakan paling bagus di karawang, cetakannya bagus, tajam, dan tiada dua nya. CS nya sangat responsif','https://res.cloudinary.com/dmedjs0rb/image/upload/v1762681168/dexprint/obruwuwsfak6zz9q0vsi.png','AWALAN.COFFEE'),(7,'Risya RIstia Wardah','Cepat dan Bagus','https://res.cloudinary.com/dmedjs0rb/image/upload/v1763536070/dexprint/a8copmobodnv2ejuagjh.png','AWALAN');
+INSERT INTO `reviews` VALUES (9,'Romi Rahman','Hasil cetakannya luar biasa, warna akurat dan kualitas kertas premium. Proses cepat dan timnya sangat responsif. Recommended banget!','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143655/dexprint/1764143654174-PP.jpg','Awalan Coffee'),(10,'MANNN','Saya pesan brosur untuk event kantor, dan hasilnya melebihi ekspektasi. Desain saya diperhatikan detailnya, dan pengiriman tepat waktu','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143702/dexprint/1764143700182-PP-2.jpg','PT Padama Bahtera Labelindo'),(11,'Tatang','Cetakan kalender dan poster untuk brand kami sangat profesional. Warna tajam, kertas tebal, dan finishing rapi. Sangat membantu promosi kami.','https://res.cloudinary.com/dmedjs0rb/image/upload/v1764143867/dexprint/1764143866156-man.jpg','PT Awalan Creative');
 /*!40000 ALTER TABLE `reviews` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -482,4 +482,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-26  8:14:58
+-- Dump completed on 2025-11-26 16:02:19
